@@ -2,41 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Definition of the design system for JPU ER Medical Insurance website */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Medical Blue Theme */
+    --background: 210 40% 98%;
+    --foreground: 216 30% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 216 30% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 216 30% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 208 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 208 80% 70%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 30% 92%;
+    --secondary-foreground: 216 30% 25%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 20% 95%;
+    --muted-foreground: 216 15% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 197 89% 65%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 210 20% 90%;
+    --input: 210 20% 95%;
+    --ring: 208 95% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Medical Theme Colors */
+    --medical-blue: 208 95% 53%;
+    --medical-light: 208 80% 70%;
+    --medical-dark: 208 80% 40%;
+    --medical-gradient: linear-gradient(135deg, hsl(208 95% 53%), hsl(197 89% 65%));
+    --medical-gradient-light: linear-gradient(135deg, hsl(208 80% 85%), hsl(208 60% 95%));
+    
+    /* Shadows */
+    --shadow-medical: 0 10px 30px -10px hsl(208 95% 53% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(208 30% 30% / 0.1);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +115,53 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    direction: rtl;
+    font-family: 'Cairo', 'Segoe UI', 'Tahoma', sans-serif;
+  }
+
+  .ltr {
+    direction: ltr;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+}
+
+@layer components {
+  .medical-gradient {
+    background: var(--medical-gradient);
+  }
+
+  .medical-gradient-light {
+    background: var(--medical-gradient-light);
+  }
+
+  .shadow-medical {
+    box-shadow: var(--shadow-medical);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .hero-section {
+    background: linear-gradient(135deg, hsl(208 95% 53%), hsl(197 89% 65%));
+  }
+
+  .card-medical {
+    @apply bg-card border shadow-card rounded-xl p-6 transition-smooth hover:shadow-medical;
+  }
+
+  .btn-medical {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-medical hover:shadow-lg transition-smooth font-medium;
+  }
+
+  .btn-medical-outline {
+    @apply border-2 border-primary text-primary bg-transparent px-6 py-3 rounded-lg hover:bg-primary hover:text-primary-foreground transition-smooth font-medium;
   }
 }
