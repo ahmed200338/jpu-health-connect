@@ -52,14 +52,14 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="hero-section relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <section className="hero-section relative overflow-hidden ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-40">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-right text-white">
+            <div className="text-right text-white ">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
                 مرحباً بكم في 
-                <span className="block text-accent">جامعة الجزيرة الخاصة</span>
-                <span className="block text-xl lg:text-2xl font-normal mt-2">
+                <span className="block text-accent mt-8">جامعة الجزيرة الخاصة</span>
+                <span className="block text-xl lg:text-2xl font-normal mt-4">
                   حيث نعتني بصحتكم
                 </span>
               </h1>

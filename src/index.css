@@ -26,7 +26,7 @@
     --muted: 210 20% 95%;
     --muted-foreground: 216 15% 50%;
 
-    --accent: 197 89% 65%;
+    --accent: 206 42% 26%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -160,15 +160,22 @@
   }
 
   .hero-section {
-    background: linear-gradient(135deg, hsl(208 95% 53%), hsl(197 89% 65%));
+    background: linear-gradient(135deg, hsl(201, 59%, 85%), hsl(201, 59%, 85%));
   }
 
   .card-medical {
     @apply bg-card border shadow-card rounded-xl p-6 transition-smooth hover:shadow-medical;
   }
 
-  .btn-medical {
-    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-medical hover:shadow-lg transition-smooth font-medium;
+  .btn-medical,
+  .btn-medicla {
+    @apply text-primary-foreground px-6 py-3 rounded-lg shadow-medical hover:shadow-lg transition-smooth font-medium;
+    background-image: linear-gradient(135deg, hsla(206, 42%, 26%, 1), hsla(210, 61%, 48%, 1));
+  }
+
+  .btn-medical:hover,
+  .btn-medicla:hover {
+    filter: brightness(1.05);
   }
 
   .btn-medical-outline {

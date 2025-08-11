@@ -75,13 +75,13 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
             
             <Link to="/login">
-              <Button variant="ghost" size="sm" className="space-x-2 space-x-reverse">
+              <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary">
                 <LogIn className="w-4 h-4" />
                 <span>تسجيل دخول</span>
               </Button>
             </Link>
             <Link to="/register">
-              <Button size="sm" className="btn-medical space-x-2 space-x-reverse">
+              <Button  size="sm" className="btn-medical space-x-2 space-x-reverse">
                 <UserPlus className="w-4 h-4" />
                 <span>إنشاء حساب</span>
               </Button>
