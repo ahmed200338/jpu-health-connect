@@ -55,7 +55,7 @@ const Home = () => {
       <section className="hero-section relative overflow-hidden ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-40">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-right text-white ">
+            <div className="text-right text-accent ">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
                 مرحباً بكم في 
                 <span className="block text-accent mt-8">جامعة الجزيرة الخاصة</span>
@@ -63,7 +63,7 @@ const Home = () => {
                   حيث نعتني بصحتكم
                 </span>
               </h1>
-              <p className="text-lg lg:text-xl mb-8 text-white/90 leading-relaxed">
+              <p className="text-lg lg:text-xl mb-8 text-accent leading-relaxed">
                 موقع التأمين الصحي الجامعي لطلاب جامعة الجزيرة الخاصة
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -77,7 +77,7 @@ const Home = () => {
                   <Button 
                     size="lg" 
                     variant="outline" 
-                    className="btn-medical-outline bg-white/10 border-white text-white hover:bg-white hover:text-primary text-lg px-8 py-4"
+                    className="btn-medical-outline bg-white/10 border-primary  hover:bg-primary/10 hover:text-primary text-lg px-8 py-4"
                   >
                     تصفح الأقسام
                   </Button>

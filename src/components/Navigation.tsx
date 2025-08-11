@@ -26,8 +26,8 @@ const Navigation = () => {
                 <UserCircle className="w-6 h-6 text-primary-foreground" />
               </div>
               <div className="text-right">
-                <h1 className="text-lg font-bold text-foreground">JPU ER</h1>
-                <p className="text-xs text-muted-foreground">التأمين الصحي</p>
+                <h1 className="text-2xl font-bold text-foreground">JPU ER</h1>
+                <p className="text-s text-muted-foreground mr-1">التأمين الصحي</p>
               </div>
             </Link>
           </div>
@@ -38,7 +38,7 @@ const Navigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`text-sm font-medium transition-smooth px-3 py-2 rounded-lg ${
+                className={`text-lg font-medium transition-smooth px-3 py-2 rounded-lg ${
                   isActive(item.path)
                     ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -75,13 +75,13 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
             
             <Link to="/login">
-              <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary">
+              <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary text-lg">
                 <LogIn className="w-4 h-4" />
                 <span>تسجيل دخول</span>
               </Button>
             </Link>
             <Link to="/register">
-              <Button  size="sm" className="btn-medical space-x-2 space-x-reverse">
+              <Button  size="sm" className="btn-medical space-x-2 space-x-reverse text-lg">
                 <UserPlus className="w-4 h-4" />
                 <span>إنشاء حساب</span>
               </Button>

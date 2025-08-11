@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 216 30% 25%;
 
-    --primary: 208 95% 53%;
+    --primary: 210 61% 48%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 208 80% 70%;
 
@@ -126,7 +126,7 @@
   body {
     @apply bg-background text-foreground;
     direction: rtl;
-    font-family: 'Cairo', 'Segoe UI', 'Tahoma', sans-serif;
+    font-family: 'Arial', 'Segoe UI', 'Tahoma', sans-serif;
   }
 
   .ltr {
