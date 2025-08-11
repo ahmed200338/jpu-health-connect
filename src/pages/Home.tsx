@@ -1,17 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { 
-  Heart, 
-  Shield, 
-  Clock, 
-  Users, 
+import {
+  Heart,
+  Shield,
+  Clock,
+  Users,
   Stethoscope,
   UserCheck,
   ChevronLeft,
   Phone,
   Mail,
-  MapPin
+  MapPin,
 } from "lucide-react";
 import doctorHero from "@/assets/doctor-hero.jpg";
 import medicalTeam from "@/assets/medical-team.jpg";
@@ -21,32 +21,36 @@ const Home = () => {
     {
       icon: Shield,
       title: "تأمين شامل",
-      description: "تغطية طبية شاملة لجميع الخدمات الصحية المطلوبة للطلاب"
+      description: "تغطية طبية شاملة لجميع الخدمات الصحية المطلوبة للطلاب",
     },
     {
       icon: Clock,
       title: "خدمة على مدار الساعة",
-      description: "متاح 24/7 لضمان حصولك على الرعاية الطبية في أي وقت"
+      description: "متاح 24/7 لضمان حصولك على الرعاية الطبية في أي وقت",
     },
     {
       icon: Heart,
       title: "رعاية متخصصة",
-      description: "فريق طبي متخصص ومؤهل لتقديم أفضل الخدمات الصحية"
+      description: "فريق طبي متخصص ومؤهل لتقديم أفضل الخدمات الصحية",
     },
     {
       icon: Users,
       title: "شبكة واسعة",
-      description: "شبكة واسعة من المستشفيات والعيادات المتعاقد معها"
-    }
+      description: "شبكة واسعة من المستشفيات والعيادات المتعاقد معها",
+    },
   ];
 
   const departments = [
-    { name: "قسم الصيدليات", icon: "💊" },
-    { name: "قسم المختبر", icon: "🔬" },
-    { name: "قسم الأشعة", icon: "📱" },
-    { name: "قسم مركز الأزمة", icon: "🚨" },
-    { name: "قسم العيادات", icon: "🏥" },
-    { name: "المعالجة الفيزيائية", icon: "🦴" }
+    { name: "قسم الصيدليات", icon: "💊", verent: "/sections/pharmacies" },
+    { name: "قسم المختبر", icon: "🔬", verent: "/sections/laboratories" },
+    { name: "قسم الأشعة", icon: "📱", verent: "/sections/optical-clinics" },
+    { name: "قسم  المشافي", icon: "🚨", verent: "/sections/hospitals" },
+    { name: "قسم العيادات", icon: "🏥", verent: "/sections/doctors" },
+    {
+      name: "المعالجة الفيزيائية",
+      icon: "🦴",
+      verent: "/sections/physical-therapy",
+    },
   ];
 
   return (
@@ -57,8 +61,10 @@ const Home = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-right text-accent ">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                مرحباً بكم في 
-                <span className="block text-accent mt-8">جامعة الجزيرة الخاصة</span>
+                مرحباً بكم في
+                <span className="block text-accent mt-8">
+                  جامعة الجزيرة الخاصة
+                </span>
                 <span className="block text-xl lg:text-2xl font-normal mt-4">
                   حيث نعتني بصحتكم
                 </span>
@@ -74,9 +80,9 @@ const Home = () => {
                   </Button>
                 </Link>
                 <Link to="/departments">
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
+                  <Button
+                    size="lg"
+                    variant="outline"
                     className="btn-medical-outline bg-white/10 border-primary  hover:bg-primary/10 hover:text-primary text-lg px-8 py-4"
                   >
                     تصفح الأقسام
@@ -86,17 +92,21 @@ const Home = () => {
             </div>
             <div className="relative">
               <div className="relative z-10">
-                <img 
-                  src={doctorHero} 
-                  alt="طبيبة مختصة" 
+                <img
+                  src={doctorHero}
+                  alt="طبيبة مختصة"
                   className="rounded-2xl shadow-2xl w-full max-w-md mx-auto"
                 />
                 <div className="absolute -top-4 -right-4 bg-white rounded-xl p-4 shadow-xl">
                   <div className="flex items-center space-x-2 space-x-reverse">
                     <Stethoscope className="w-6 h-6 text-primary" />
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-foreground">د. سارة أحمد</p>
-                      <p className="text-xs text-muted-foreground">طبيبة عامة</p>
+                      <p className="text-sm font-semibold text-foreground">
+                        د. سارة أحمد
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        طبيبة عامة
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -123,8 +133,9 @@ const Home = () => {
               الهدف من الموقع
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              يهدف هذا الموقع إلى توفير منصة سهلة الاستخدام للطلاب في الجامعة للاستعلام عن حالة التأمين الصحي الخاصة بهم، 
-              يمكن للمستخدمين الوصول إلى معلومات دقيقة ومحدثة حول تغطية التأمين الصحي
+              يهدف هذا الموقع إلى توفير منصة سهلة الاستخدام للطلاب في الجامعة
+              للاستعلام عن حالة التأمين الصحي الخاصة بهم، يمكن للمستخدمين الوصول
+              إلى معلومات دقيقة ومحدثة حول تغطية التأمين الصحي
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -157,14 +168,19 @@ const Home = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {departments.map((dept, index) => (
-              <Card key={index} className="card-medical group hover:scale-105">
-                <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-4">{dept.icon}</div>
-                  <h3 className="text-lg font-semibold text-foreground">
-                    {dept.name}
-                  </h3>
-                </CardContent>
-              </Card>
+              <Link to={dept.verent}>
+                <Card
+                  key={index}
+                  className="card-medical group hover:scale-105"
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl mb-4">{dept.icon}</div>
+                    <h3 className="text-lg font-semibold text-foreground">
+                      {dept.name}
+                    </h3>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
@@ -179,9 +195,10 @@ const Home = () => {
                 الرعاية الصحية
               </h2>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                تعتبر رعاية صحية الطلاب عنصراً أساسياً من أي برنامج تعليمي فعالي. 
-                في قسم الرعاية الصحية، يمكن الطلاب الحصول على خدمة أكثر صحة وسعادة، 
-                مما يساهم في تحسين تجربة المستخدمين وضمان حصولهم على الرعاية الصحية اللازمة.
+                تعتبر رعاية صحية الطلاب عنصراً أساسياً من أي برنامج تعليمي
+                فعالي. في قسم الرعاية الصحية، يمكن الطلاب الحصول على خدمة أكثر
+                صحة وسعادة، مما يساهم في تحسين تجربة المستخدمين وضمان حصولهم على
+                الرعاية الصحية اللازمة.
               </p>
               <Link to="/support">
                 <Button className="btn-medical">
@@ -191,9 +208,9 @@ const Home = () => {
               </Link>
             </div>
             <div>
-              <img 
-                src={medicalTeam} 
-                alt="الفريق الطبي" 
+              <img
+                src={medicalTeam}
+                alt="الفريق الطبي"
                 className="rounded-2xl shadow-2xl w-full"
               />
             </div>
