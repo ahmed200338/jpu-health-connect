@@ -78,9 +78,9 @@ const Login = () => {
                 </div>
               </div>
             </div>
-            <div className="text-center mt-6 text-white">
+            <div className="text-center mt-6 text-accent">
               <h3 className="text-2xl font-bold mb-2">أنشأ حسابك الآن</h3>
-              <p className="text-white/80">يرجى التواصل معنا للحصول على أسرع استجابة.</p>
+              
             </div>
           </div>
 
@@ -98,13 +98,13 @@ const Login = () => {
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-right block">الاسم :</Label>
+                    <Label htmlFor="name" className="text-right block"> اسم المستخدم:</Label>
                     <div className="relative">
                       <Input
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="سماء منذر لحميد"
+                        placeholder="اسم المستخدم او البريد الاكتروني"
                         value={formData.name}
                         onChange={handleChange}
                         className="pr-10"
@@ -121,11 +121,11 @@ const Login = () => {
                         id="password"
                         name="password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="123456789"
+                        placeholder="كلمة المرور"
                         value={formData.password}
                         onChange={handleChange}
-                        className="pr-10 pl-10 ltr"
-                        dir="ltr"
+                        className="pr-10 pl-10 rtl"
+                        dir="rtl"
                       />
                       <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Button
@@ -160,8 +160,9 @@ const Login = () => {
 
             {/* Security Badge */}
             <div className="mt-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                <Shield className="w-8 h-8 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 rounded-full mb-4">
+                <Shield className="w-8 h-8 text-primary/60" />
+                
               </div>
             </div>
           </div>
@@ -169,24 +170,7 @@ const Login = () => {
       </div>
 
       {/* Footer Contact Info */}
-      <div className="absolute bottom-0 left-0 right-0 bg-primary/90 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row justify-center items-center space-y-2 md:space-y-0 md:space-x-8 md:space-x-reverse text-white text-sm">
-            <div className="flex items-center space-x-2 space-x-reverse">
-              <MapPin className="w-4 h-4" />
-              <span>أربد - الأردن - شارع حماة - جامعة</span>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse">
-              <Phone className="w-4 h-4" />
-              <span>+963 11 221 7240</span>
-            </div>
-            <div className="flex items-center space-x-2 space-x-reverse">
-              <Mail className="w-4 h-4" />
-              <span>info@jude.edu.sy</span>
-            </div>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 };

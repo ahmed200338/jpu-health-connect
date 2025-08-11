@@ -6,9 +6,9 @@ const Footer = () => {
        {/* Contact Section */}
        <section className="py-20 hero-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center text-white">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-10 h-10 text-white" />
+          <div className="text-center text-accent">
+            <div className="w-20 h-20 bg-primary/30 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Shield className="w-10 h-10 text-primary" />
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">تواصل معنا الآن !</h2>
             <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 md:space-x-reverse mb-8">
@@ -28,16 +28,16 @@ const Footer = () => {
           </div>
           <div className="md:col-span-2 flex items-center justify-center md:justify-center">
             <div className="flex items-center gap-4">
-              <a href="https://www.facebook.com/share/1KRKvSwVLQ/" target="_blank" rel="noreferrer" className="text-white hover:text-[#184bf2] transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/share/1KRKvSwVLQ/" target="_blank" rel="noreferrer" className="text-accent hover:text-[#184bf2] transition-colors" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white hover:text-[#E4405F] transition-colors" aria-label="Instagram">
+              <a href="#" className="text-accent hover:text-[#E4405F] transition-colors" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
+              <a href="#" className="text-accent hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="https://t.me/STUDENTSJPU" target="_blank" rel="noreferrer" className="text-white hover:text-[#2a41ee] transition-colors" aria-label="Telegram">
+              <a href="https://t.me/STUDENTSJPU" target="_blank" rel="noreferrer" className="text-accent hover:text-[#2a41ee] transition-colors" aria-label="Telegram">
                 <Send className="w-5 h-5" />
               </a>
             </div>

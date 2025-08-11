@@ -105,7 +105,7 @@ const Register = () => {
                         id="name"
                         name="name"
                         type="text"
-                        placeholder="سماء منذر الحميد"
+                        placeholder="الاسم الكامل"
                         value={formData.name}
                         onChange={handleChange}
                         className="pr-10"
@@ -116,17 +116,17 @@ const Register = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-right block">الايميل :</Label>
+                    <Label htmlFor="email" className="text-right block">البريد الاكتروني :</Label>
                     <div className="relative">
                       <Input
                         id="email"
                         name="email"
                         type="email"
-                        placeholder="samahalhmed@gmail.com"
+                        placeholder="البريد الاكتروني"
                         value={formData.email}
                         onChange={handleChange}
-                        className="pr-10 ltr"
-                        dir="ltr"
+                        className="pr-10 rtl"
+                        dir="rtl"
                       />
                       <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
@@ -139,11 +139,11 @@ const Register = () => {
                         id="password"
                         name="password"
                         type="password"
-                        placeholder="123456789"
+                        placeholder="كلمة المرور"
                         value={formData.password}
                         onChange={handleChange}
-                        className="pr-10 ltr"
-                        dir="ltr"
+                        className="pr-10 rtl"
+                        dir="rtl"
                       />
                       <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
@@ -156,11 +156,11 @@ const Register = () => {
                         id="phone"
                         name="phone"
                         type="tel"
-                        placeholder="0933885542"
+                        placeholder="09xxxxxxxx"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="pr-10 ltr"
-                        dir="ltr"
+                        className="pr-10 rtl"
+                        dir="rtl"
                       />
                       <Phone className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
