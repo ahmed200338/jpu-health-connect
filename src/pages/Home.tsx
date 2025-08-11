@@ -202,7 +202,7 @@ const Home = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 hero-section">
+      {/* <section className="py-20 hero-section">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center text-white">
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -225,7 +225,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

@@ -179,3 +179,4 @@
   .gradient-bronze { background-image: linear-gradient(135deg, hsl(var(--bronze-1)), hsl(var(--bronze-2))); }
   .gradient-silver { background-image: linear-gradient(135deg, hsl(var(--silver-1)), hsl(var(--silver-2))); }
   .gradient-gold { background-image: linear-gradient(135deg, hsl(var(--gold-1)), hsl(var(--gold-2))); }
+}

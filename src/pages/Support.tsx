@@ -59,7 +59,7 @@ const Support = () => {
       icon: Phone,
       title: "اتصل بنا",
       details: ["+963 11 221 7240", "+962 27 390 000"],
-      description: "متاح من الأحد إلى الخميس، 8 صباحاً - 5 مساءً"
+      description: "متاح من  السبت إلى الخميس، 8 صباحاً - 4 مساءً"
     },
     {
       icon: Mail,
@@ -70,8 +70,8 @@ const Support = () => {
     {
       icon: MapPin,
       title: "زرنا",
-      details: ["أربد - الأردن", "شارع حماة - جامعة الجزيرة الخاصة"],
-      description: "مبنى الخدمات الطلابية - الطابق الأول"
+      details: ["درعا  ", "أوتوستراد غباغب  - جامعة الجزيرة الخاصة"],
+      description: "مبنى كلية الصيدلة - الطابق الأول"
     }
   ];
 
@@ -262,7 +262,7 @@ const Support = () => {
       </section>
 
       {/* Emergency Contact */}
-      <section className="py-16 hero-section">
+      {/* <section className="py-16 hero-section">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <div className="flex items-center justify-center space-x-4 space-x-reverse mb-6">
             <Shield className="w-8 h-8" />
@@ -282,7 +282,7 @@ const Support = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };

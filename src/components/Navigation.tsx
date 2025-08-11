@@ -21,7 +21,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo and Brand */}
           <div className="flex items-center space-x-4 space-x-reverse">
-            <Link to="/" className="flex items-center space-x-2 space-x-reverse">
+            <Link to="/profile" className="flex items-center space-x-2 space-x-reverse">
               <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
                 <UserCircle className="w-6 h-6 text-primary-foreground" />
               </div>
@@ -73,9 +73,7 @@ const Navigation = () => {
 
           {/* Right side */}
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
-            <Link to="/profile" className="text-muted-foreground hover:text-foreground" aria-label="الملف الشخصي">
-              <User className="w-5 h-5" />
-            </Link>
+            
             <Link to="/login">
               <Button variant="ghost" size="sm" className="space-x-2 space-x-reverse">
                 <LogIn className="w-4 h-4" />
