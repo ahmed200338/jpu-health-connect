@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, UserCircle, LogIn, UserPlus } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Menu, X, UserCircle, LogIn, UserPlus, ChevronDown, User } from "lucide-react";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,7 +12,6 @@ const Navigation = () => {
 
   const navItems = [
     { path: "/", label: "الرئيسية", icon: null },
-    { path: "/departments", label: "الأقسام", icon: null },
     { path: "/support", label: "الدعم والمساعدة", icon: null },
   ];
 
@@ -33,7 +33,7 @@ const Navigation = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 space-x-reverse">
+          <div className="hidden md:flex items-center space-x-4 space-x-reverse">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -47,10 +47,35 @@ const Navigation = () => {
                 {item.label}
               </Link>
             ))}
+
+            {/* Sections Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="text-sm font-medium space-x-2 space-x-reverse">
+                  <span>الأقسام</span>
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="z-[60] bg-popover">
+                <Link to="/sections/doctors"><DropdownMenuItem>الأطباء</DropdownMenuItem></Link>
+                <Link to="/sections/hospitals"><DropdownMenuItem>المستشفيات</DropdownMenuItem></Link>
+                <Link to="/sections/pharmacies"><DropdownMenuItem>الصيدليات</DropdownMenuItem></Link>
+                <Link to="/sections/laboratories"><DropdownMenuItem>المختبرات</DropdownMenuItem></Link>
+                <Link to="/sections/dental-clinics"><DropdownMenuItem>عيادات الأسنان</DropdownMenuItem></Link>
+                <Link to="/sections/radiology"><DropdownMenuItem>الأشعة</DropdownMenuItem></Link>
+                <Link to="/sections/optical-clinics"><DropdownMenuItem>العيون</DropdownMenuItem></Link>
+                <Link to="/sections/physical-therapy"><DropdownMenuItem>المعالجة الفيزيائية</DropdownMenuItem></Link>
+                <div className="my-1 h-px bg-border" />
+                <Link to="/subscription"><DropdownMenuItem>الاشتراك بالتأمين</DropdownMenuItem></Link>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Right side */}
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
+            <Link to="/profile" className="text-muted-foreground hover:text-foreground" aria-label="الملف الشخصي">
+              <User className="w-5 h-5" />
+            </Link>
             <Link to="/login">
               <Button variant="ghost" size="sm" className="space-x-2 space-x-reverse">
                 <LogIn className="w-4 h-4" />
@@ -95,7 +120,21 @@ const Navigation = () => {
                   {item.label}
                 </Link>
               ))}
+              <div className="pt-2">
+                <div className="px-4 text-xs text-muted-foreground mb-1">الأقسام</div>
+                <div className="grid grid-cols-2 gap-2 px-4">
+                  <Link to="/sections/doctors" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">الأطباء</Link>
+                  <Link to="/sections/hospitals" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">المستشفيات</Link>
+                  <Link to="/sections/pharmacies" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">الصيدليات</Link>
+                  <Link to="/sections/laboratories" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">المختبرات</Link>
+                  <Link to="/sections/dental-clinics" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">عيادات الأسنان</Link>
+                  <Link to="/sections/radiology" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">الأشعة</Link>
+                  <Link to="/sections/optical-clinics" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">العيون</Link>
+                  <Link to="/sections/physical-therapy" onClick={() => setIsMenuOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">المعالجة الفيزيائية</Link>
+                </div>
+              </div>
               <div className="pt-4 space-y-2">
+                <Link to="/subscription" onClick={() => setIsMenuOpen(false)} className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground">الاشتراك بالتأمين</Link>
                 <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                   <Button variant="ghost" className="w-full justify-start space-x-2 space-x-reverse">
                     <LogIn className="w-4 h-4" />

@@ -64,8 +64,7 @@ const Home = () => {
                 </span>
               </h1>
               <p className="text-lg lg:text-xl mb-8 text-white/90 leading-relaxed">
-                يهدف هذا الموقع إلى توفير منصة سهلة الاستخدام للطلاب في الجامعة 
-                للاستعلام عن حالة التأمين الصحي الخاصة بهم
+                موقع التأمين الصحي الجامعي لطلاب جامعة الجزيرة الخاصة
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/register">
@@ -209,13 +208,11 @@ const Home = () => {
             <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
               <Shield className="w-10 h-10 text-white" />
             </div>
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              تواصل معنا الآن !
-            </h2>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6">تواصل معنا الآن !</h2>
             <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 md:space-x-reverse mb-8">
               <div className="flex items-center space-x-2 space-x-reverse">
                 <MapPin className="w-5 h-5" />
-                <span>أربد - الأردن - شارع حماة - جامعة</span>
+                <span>درعا - أوتوستراد غباغب - سوريا</span>
               </div>
               <div className="flex items-center space-x-2 space-x-reverse">
                 <Phone className="w-5 h-5" />
