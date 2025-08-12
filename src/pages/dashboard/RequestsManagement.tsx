@@ -14,11 +14,11 @@ export default function RequestsManagement() {
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase
+    const { data } = await (supabase as any)
       .from("student_subscription")
-      .select("id, created_at, student_id, college_department, plan, request_status")
+      .select("id, created_at, student_id, college_department, request_status")
       .eq("request_status", "pending");
-    setRows(data || []);
+    setRows((data as any[]) || []);
     setLoading(false);
   };
 

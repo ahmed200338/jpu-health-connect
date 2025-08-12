@@ -1,8 +1,8 @@
-import { PropsWithChildren } from "react";
+import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
-export default function DashboardLayout({ children }: PropsWithChildren) {
+export default function DashboardLayout() {
   return (
     <SidebarProvider>
       <div className="min-h-[80vh] flex w-full">
@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
             </div>
           </header>
           <div className="p-4">
-            {children}
+            <Outlet />
           </div>
         </main>
 

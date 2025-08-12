@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { LayoutDashboard, Shield, Users, ListChecks, FileSpreadsheet, Home, Settings } from "lucide-react";
+import { Home, Settings, Shield, Users, ListChecks, FileSpreadsheet } from "lucide-react";
 
 const items = [
   { title: "الصفحة الرئيسية", url: "/dashboard", icon: Home },
@@ -12,7 +12,8 @@ const items = [
 ];
 
 export default function AdminSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -21,9 +22,9 @@ export default function AdminSidebar() {
     isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50";
 
   return (
-    <Sidebar side="right" className={collapsed ? "w-14" : "w-64"} collapsible>
+    <Sidebar side="right" collapsible="icon">
       <SidebarContent>
-        <SidebarGroup open>
+        <SidebarGroup>
           <SidebarGroupLabel className="text-foreground">لوحة التحكم</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -31,7 +32,7 @@ export default function AdminSidebar() {
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild className="justify-end">
                     <NavLink to={item.url} end className={getNavCls}>
-                      {!collapsed && <span className="ml-2">{item.title}</span>}
+                      {!isCollapsed && <span className="ml-2">{item.title}</span>}
                       <item.icon className="h-4 w-4" />
                     </NavLink>
                   </SidebarMenuButton>

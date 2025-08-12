@@ -21,6 +21,13 @@ import OpticalClinics from "./pages/sections/OpticalClinics";
 import PhysicalTherapy from "./pages/sections/PhysicalTherapy";
 import Subscription from "./pages/Subscription";
 import Profile from "./pages/Profile";
+import DashboardLayout from "./layouts/DashboardLayout";
+import DashboardHome from "./pages/dashboard";
+import InsuranceSettings from "./pages/dashboard/InsuranceSettings";
+import SubscriptionsManagement from "./pages/dashboard/SubscriptionsManagement";
+import UsersManagement from "./pages/dashboard/UsersManagement";
+import ServicesManagement from "./pages/dashboard/ServicesManagement";
+import RequestsManagement from "./pages/dashboard/RequestsManagement";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +56,15 @@ const App = () => (
 
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="insurance-settings" element={<InsuranceSettings />} />
+            <Route path="subscriptions" element={<SubscriptionsManagement />} />
+            <Route path="users" element={<UsersManagement />} />
+            <Route path="services" element={<ServicesManagement />} />
+            <Route path="requests" element={<RequestsManagement />} />
+          </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
