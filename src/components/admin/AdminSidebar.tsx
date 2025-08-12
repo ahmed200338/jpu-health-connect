@@ -1,5 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { Home, Settings, Shield, Users, ListChecks, FileSpreadsheet } from "lucide-react";
 
 const items = [
@@ -12,8 +11,6 @@ const items = [
 ];
 
 export default function AdminSidebar() {
-  const { state } = useSidebar();
-  const isCollapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
 
@@ -22,26 +19,30 @@ export default function AdminSidebar() {
     isActive ? "bg-muted text-primary font-medium" : "hover:bg-muted/50";
 
   return (
-    <Sidebar side="right" collapsible="icon">
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-foreground">لوحة التحكم</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
+    <aside dir="rtl" className="w-64 shrink-0 border-l bg-background sticky top-16 h-[calc(100vh-4rem)]">
+      <div className="h-full overflow-y-auto">
+        <div className="px-4 py-3">
+          <div className="text-foreground font-semibold mb-2 text-right">لوحة التحكم</div>
+          <nav>
+            <ul className="space-y-1">
               {items.map((item) => (
-                <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild className="justify-end">
-                    <NavLink to={item.url} end className={getNavCls}>
-                      {!isCollapsed && <span className="ml-2">{item.title}</span>}
-                      <item.icon className="h-4 w-4" />
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <li key={item.url}>
+                  <NavLink
+                    to={item.url}
+                    end
+                    className={({ isActive }) =>
+                      `flex items-center justify-end gap-2 px-3 py-2 rounded-md transition-smooth ${getNavCls({ isActive })}`
+                    }
+                  >
+                    <span className="ml-2">{item.title}</span>
+                    <item.icon className="h-4 w-4" />
+                  </NavLink>
+                </li>
               ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </aside>
   );
 }
