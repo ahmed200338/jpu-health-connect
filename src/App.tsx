@@ -31,32 +31,46 @@ import RequestsManagement from "./pages/dashboard/RequestsManagement";
 
 const queryClient = new QueryClient();
 
+const PublicLayout = ({ children }) => (
+  <>
+    <Navigation />
+    {children}
+    <Footer />
+  </>
+);
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Navigation />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/support" element={<Support />} />
-          <Route path="/departments" element={<Departments />} />
+          <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
+          <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
+          <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
+          <Route path="/support" element={<PublicLayout><Support /></PublicLayout>} />
+          <Route path="/departments" element={<PublicLayout><Departments /></PublicLayout>} />
 
-          <Route path="/sections/doctors" element={<Doctors />} />
-          <Route path="/sections/hospitals" element={<Hospitals />} />
-          <Route path="/sections/pharmacies" element={<Pharmacies />} />
-          <Route path="/sections/laboratories" element={<Laboratories />} />
-          <Route path="/sections/dental-clinics" element={<DentalClinics />} />
-          <Route path="/sections/radiology" element={<Radiology />} />
-          <Route path="/sections/optical-clinics" element={<OpticalClinics />} />
-          <Route path="/sections/physical-therapy" element={<PhysicalTherapy />} />
+          <Route path="/sections/doctors" element={<PublicLayout><Doctors /></PublicLayout>} />
+          <Route path="/sections/hospitals" element={<PublicLayout><Hospitals /></PublicLayout>} />
+          <Route path="/sections/pharmacies" element={<PublicLayout><Pharmacies /></PublicLayout>} />
+          <Route path="/sections/laboratories" element={<PublicLayout><Laboratories /></PublicLayout>} />
+          <Route path="/sections/dental-clinics" element={<PublicLayout><DentalClinics /></PublicLayout>} />
+          <Route path="/sections/radiology" element={<PublicLayout><Radiology /></PublicLayout>} />
+          <Route
+            path="/sections/optical-clinics"
+            element={<PublicLayout><OpticalClinics /></PublicLayout>}
+          />
+          <Route
+            path="/sections/physical-therapy"
+            element={<PublicLayout><PhysicalTherapy /></PublicLayout>}
+          />
 
           <Route path="/subscription" element={<Subscription />} />
           <Route path="/profile" element={<Profile />} />
 
+          {/* DASHBOARD SECTION */}
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
             <Route path="insurance-settings" element={<InsuranceSettings />} />
@@ -67,9 +81,9 @@ const App = () => (
           </Route>
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
         </Routes>
-        <Footer />
+        
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

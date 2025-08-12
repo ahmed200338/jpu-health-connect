@@ -7,11 +7,12 @@ export default function DashboardLayout() {
     <SidebarProvider>
       <div className="min-h-[80vh] flex w-full">
         {/* المحتوى */}
+         <AdminSidebar />
         <main className="flex-1">
-          <header className="h-14 flex items-center justify-between border-b px-4">
+          <header className="h-14 flex items-center justify-between border-b px-4 hedr-admin">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="ml-2" />
-              <h1 className="text-lg font-semibold">لوحة التحكم</h1>
+              <h1 className="text-2xl font-semibold  ">لوحة التحكم</h1>
             </div>
           </header>
           <div className="p-4">
@@ -20,7 +21,6 @@ export default function DashboardLayout() {
         </main>
 
         {/* الشريط الجانبي في اليمين */}
-        <AdminSidebar />
       </div>
     </SidebarProvider>
   );

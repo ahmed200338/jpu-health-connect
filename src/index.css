@@ -173,6 +173,15 @@
     background-image: linear-gradient(135deg, hsla(206, 42%, 26%, 1), hsla(210, 61%, 48%, 1));
   }
 
+  .side-admin {
+    @apply text-primary-foreground px-6 py-3  shadow-medical hover:shadow-lg transition-smooth font-medium;
+    background-image: linear-gradient(180deg, hsla(206, 42%, 26%, 1), hsla(206, 48%, 53%, 1));
+  }
+  .hedr-admin {
+    @apply text-primary-foreground px-6 py-3  shadow-medical hover:shadow-lg transition-smooth font-medium;
+    background-image: linear-gradient(60deg, hsla(206, 48%, 53%, 1), hsla(206, 42%, 26%, 1));
+  }
+
   .btn-medical:hover,
   .btn-medicla:hover {
     filter: brightness(1.05);
