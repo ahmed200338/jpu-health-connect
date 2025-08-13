@@ -4,17 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Navigation from "@/components/Navigation";
 
 const Profile = () => {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({
-    fullName: "أحمد محمد",
-    birthDate: "1999-05-10",
+    fullName: "سماح الحميد",
+    birthDate: "2002-03-03",
     college: "كلية الهندسة",
-    universityId: "20201234",
-    insuranceId: "INS-123456",
-    phone: "+963 991 234 567",
-    email: "student@example.com",
+    universityId: "2012077",
+    insuranceId: "20021496",
+    phone: "+963 999 000 000",
+    email: "samah.hamid@gmail.com",
   });
 
   useEffect(() => { document.title = "الملف الشخصي | JPU ER"; }, []);
@@ -22,6 +23,9 @@ const Profile = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [e.target.name]: e.target.value });
 
   return (
+    <>
+    <Navigation/>
+    
     <div className="min-h-screen bg-background py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
@@ -91,6 +95,7 @@ const Profile = () => {
         </Card>
       </div>
     </div>
+    </>
   );
 };
 

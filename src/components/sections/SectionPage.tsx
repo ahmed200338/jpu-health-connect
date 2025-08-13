@@ -11,12 +11,13 @@ import type { Governorate, SectionItem } from "@/data/mock";
 
 interface SectionPageProps {
   title: string;
+  disc: string;
   backgroundImage: string;
   items: SectionItem[];
   pageKey: string; // for SEO title
 }
 
-const SectionPage = ({ title, backgroundImage, items, pageKey }: SectionPageProps) => {
+const SectionPage = ({ title, disc, backgroundImage, items, pageKey }: SectionPageProps) => {
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [gov, setGov] = useState<"الكل" | Governorate>("الكل");
@@ -41,11 +42,11 @@ const SectionPage = ({ title, backgroundImage, items, pageKey }: SectionPageProp
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="relative py-16 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div className="absolute inset-0 bg-primary/80" />
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <h1 className="text-4xl font-bold">{title}</h1>
-          <p className="text-white/90 mt-2">استكشف الخيارات المتاحة وابحث بسرعة باستخدام أدوات التصفية</p>
+      <section className="relative py-52 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className="absolute inset-0 bg-primary/20" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start text-white">
+          <h1 className="text-5xl pb-4  text-accent font-bold">{title}</h1>
+          <p className="text-accent text-lg mt-2">{disc}</p>
         </div>
       </section>
 

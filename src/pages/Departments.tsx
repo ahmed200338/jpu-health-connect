@@ -14,6 +14,7 @@ import {
   Clock,
   MapPin
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import stethoscopeBg from "@/assets/stethoscope-bg.jpg";
 
 const Departments = () => {
@@ -24,7 +25,7 @@ const Departments = () => {
       description: "توفير الأدوية والعلاجات المختلفة بجودة عالية وأسعار مناسبة للطلاب والموظفين في الجامعة",
       services: ["صرف الأدوية", "الاستشارات الدوائية", "متابعة العلاج"],
       hours: "8:00 ص - 8:00 م",
-      location: "الطابق الأرضي - مبنى الخدمات الطبية"
+      path: "/sections/pharmacies"
     },
     {
       icon: Microscope,
@@ -32,7 +33,7 @@ const Departments = () => {
       description: "إجراء التحاليل الطبية والفحوصات المخبرية الشاملة باستخدام أحدث التقنيات والأجهزة المتطورة",
       services: ["تحاليل الدم", "فحص البول", "الفحوصات الميكروبيولوجية"],
       hours: "7:00 ص - 4:00 م",
-      location: "الطابق الأول - مبنى المختبرات"
+      path: "/sections/laboratories"
     },
     {
       icon: Scan,
@@ -40,7 +41,7 @@ const Departments = () => {
       description: "خدمات التصوير الطبي الشامل باستخدام أجهزة الأشعة المتطورة لتشخيص دقيق وآمن",
       services: ["الأشعة السينية", "الموجات فوق الصوتية", "الرنين المغناطيسي"],
       hours: "8:00 ص - 6:00 م",
-      location: "الطابق الثاني - مبنى التشخيص"
+      path: "/sections/dental-clinics"
     },
     {
       icon: AlertTriangle,
@@ -48,7 +49,7 @@ const Departments = () => {
       description: "وحدة الطوارئ الطبية المجهزة لاستقبال الحالات العاجلة وتقديم الإسعافات الأولية على مدار الساعة",
       services: ["الإسعافات الأولية", "حالات الطوارئ", "الرعاية العاجلة"],
       hours: "24 ساعة / 7 أيام",
-      location: "مدخل الطوارئ - المبنى الرئيسي"
+      path: "/sections/hospitals"
     },
     {
       icon: Building2,
@@ -56,7 +57,7 @@ const Departments = () => {
       description: "مجموعة متنوعة من العيادات التخصصية لتقديم الرعاية الطبية الشاملة في مختلف التخصصات الطبية",
       services: ["الطب العام", "طب الأسنان", "أمراض النساء"],
       hours: "8:00 ص - 5:00 م",
-      location: "الطابق الثالث - مبنى العيادات"
+      path: "/sections/doctors"
     },
     {
       icon: Bone,
@@ -64,7 +65,7 @@ const Departments = () => {
       description: "قسم العلاج الطبيعي المتخصص في إعادة التأهيل وعلاج الإصابات والآلام العضلية والمفصلية",
       services: ["العلاج الطبيعي", "إعادة التأهيل", "التدليك العلاجي"],
       hours: "8:00 ص - 6:00 م",
-      location: "الطابق الأرضي - مبنى العلاج الطبيعي"
+      path: "/sections/physical-therapy"
     }
   ];
 
@@ -103,6 +104,7 @@ const Departments = () => {
 
           <div className="grid lg:grid-cols-2 gap-8">
             {departments.map((dept, index) => (
+            <Link to={dept.path}>
               <Card key={index} className="card-medical group hover:scale-[1.02]">
                 <CardHeader className="pb-4">
                   <div className="flex items-center space-x-4 space-x-reverse">
@@ -138,12 +140,10 @@ const Departments = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground pt-2 border-t">
-                    <MapPin className="w-4 h-4" />
-                    <span>{dept.location}</span>
-                  </div>
+                  
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         </div>

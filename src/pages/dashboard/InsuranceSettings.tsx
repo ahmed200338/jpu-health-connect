@@ -58,8 +58,8 @@ export default function InsuranceSettings() {
             <div className="text-sm text-muted-foreground">يمكنك إتاحة تسجيل الطلاب/إيقافه</div>
             <div className="text-base">الحالة الحالية: <span className={status ? "text-green-600" : "text-red-600"}>{status ? "مفتوح" : "متوقف"}</span></div>
           </div>
-          <div className="flex items-center gap-3">
-            <Switch checked={status} onCheckedChange={setStatus} />
+          <div className="flex items-center gap-3 ">
+            <Switch dir="ltr" checked={status} onCheckedChange={setStatus} />
             <Button onClick={saveStatus} disabled={loading}>{loading ? "جاري الحفظ..." : "حفظ"}</Button>
           </div>
         </CardContent>

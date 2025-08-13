@@ -3,7 +3,7 @@ import laboratoriesHero from "@/assets/sections/laboratories-hero.jpg";
 import { laboratoriesMock } from "@/data/mock";
 
 const Laboratories = () => (
-  <SectionPage title="المختبرات" backgroundImage={laboratoriesHero} items={laboratoriesMock} pageKey="laboratories" />
+  <SectionPage title="مرحباً بكم في قسم المخابر" disc="دقة المختبر هي أساس للتشخيص الصحيح ." backgroundImage={laboratoriesHero} items={laboratoriesMock} pageKey="laboratories" />
 );
 
 export default Laboratories;
