@@ -55,7 +55,7 @@ const SectionPage = ({ title, disc, backgroundImage, items, pageKey }: SectionPa
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
             <Input
-              placeholder={`ابحث في ${title}`}
+              placeholder={`بحث حسب الاسم او العنوان`}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="sm:max-w-md"

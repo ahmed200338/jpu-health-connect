@@ -77,15 +77,15 @@ const Navigation = () => {
             <Link to="/login">
               <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary text-lg">
                 <LogIn className="w-4 h-4" />
-                <span>تسجيل دخول</span>
+                <span>تسجيل الخروج</span>
               </Button>
             </Link>
-            <Link to="/register">
+            {/* <Link to="/register">
               <Button  size="sm" className="btn-medical space-x-2 space-x-reverse text-lg">
                 <UserPlus className="w-4 h-4" />
                 <span>إنشاء حساب</span>
               </Button>
-            </Link>
+            </Link> */}
           </div>
 
           {/* Mobile Menu Button */}

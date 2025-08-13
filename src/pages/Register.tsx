@@ -64,8 +64,10 @@ const Register = () => {
                 <div className="flex items-center space-x-2 space-x-reverse">
                   <User className="w-6 h-6 text-primary" />
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-foreground">د. ديفيد جيمس</p>
-                    <p className="text-xs text-muted-foreground">طبيب أطفال</p>
+                    <p className="text-sm font-semibold text-foreground">                        د. سارة أحمد
+                    </p>
+                    <p className="text-xs text-muted-foreground">                         طبيبة عامة
+                    </p>
                   </div>
                 </div>
               </div>
@@ -79,9 +81,9 @@ const Register = () => {
                 </div>
               </div>
             </div>
-            <div className="text-center mt-6 text-white">
+            <div className="text-center mt-6 text-accent">
               <h3 className="text-2xl font-bold mb-2">أنشأ حسابك الآن</h3>
-              <p className="text-white/80">يرجى التواصل معنا للحصول على أسرع استجابة.</p>
+              <p className="text-accent/80">يرجى التواصل معنا للحصول على أسرع استجابة.</p>
             </div>
           </div>
 
@@ -182,8 +184,8 @@ const Register = () => {
 
             {/* Security Badge */}
             <div className="mt-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4">
-                <Shield className="w-8 h-8 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/20 rounded-full mb-4">
+                <Shield className="w-8 h-8 text-accent" />
               </div>
             </div>
           </div>

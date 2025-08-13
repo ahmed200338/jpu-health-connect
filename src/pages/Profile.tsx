@@ -32,7 +32,7 @@ const Profile = () => {
     <div className="min-h-screen bg-background py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground">الملف الشخصي</h1>
+          <h1 className="text-5xl font-bold text-accent">الملف الشخصي</h1>
           <p className="text-muted-foreground mt-1">معلومات الطالب وبيانات الاشتراك</p>
         </div>
 
@@ -55,7 +55,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <Label>تاريخ الميلاد</Label>
-                      <Input type="date" name="birthDate" value={form.birthDate} onChange={onChange} />
+                      <Input  type="date" name="birthDate" value={form.birthDate} onChange={onChange} />
                     </div>
                     <div>
                       <Label>الكلية</Label>

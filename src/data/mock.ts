@@ -91,8 +91,8 @@ export const hospitalsMock: SectionItem[] = [
 
 export const pharmaciesMock: SectionItem[] = [
   {
-    name: "صيدلية الجامعة",
-    description: "أدوية أصلية واستشارات دوائية",
+    name: "صيدلية الفيحاء",
+    description: "أدوية  واستشارات دوائية",
     address: "دمشق - الميدان",
     phone: "+963 11 666 9999",
     region: "دمشق",

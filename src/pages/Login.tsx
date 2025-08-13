@@ -63,8 +63,8 @@ const Login = () => {
                 <div className="flex items-center space-x-2 space-x-reverse">
                   <User className="w-6 h-6 text-primary" />
                   <div className="text-right">
-                    <p className="text-sm font-semibold text-foreground">د. ديفيد جيمس</p>
-                    <p className="text-xs text-muted-foreground">طبيب أطفال</p>
+                    <p className="text-sm font-semibold text-foreground">د. سارة أحمد</p>
+                    <p className="text-xs text-muted-foreground">طبيبة عامة</p>
                   </div>
                 </div>
               </div>

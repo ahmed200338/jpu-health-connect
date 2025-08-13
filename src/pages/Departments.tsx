@@ -76,15 +76,15 @@ const Departments = () => {
         className="relative py-20 bg-cover bg-center"
         style={{ backgroundImage: `url(${stethoscopeBg})` }}
       >
-        <div className="absolute inset-0 bg-primary/80"></div>
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Stethoscope className="w-10 h-10 text-white" />
+        <div className="absolute inset-0 bg-primary/20"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-accent">
+          <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Stethoscope className="w-10 h-10 text-accent" />
           </div>
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">
             شريكك في الصحة والعافية
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+          <p className="text-xl text-accent/90 max-w-3xl mx-auto">
             نحن ملتزمون بتزويدك بأفضل الخدمات الطبية والصحية لضمان حياة أكثر صحة وسعادة
           </p>
         </div>
@@ -185,7 +185,7 @@ const Departments = () => {
       </section>
 
       {/* Emergency Notice */}
-      <section className="py-16 hero-section">
+      {/* <section className="py-16 hero-section">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
           <div className="flex items-center justify-center space-x-4 space-x-reverse mb-6">
             <AlertTriangle className="w-8 h-8" />
@@ -205,7 +205,7 @@ const Departments = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
