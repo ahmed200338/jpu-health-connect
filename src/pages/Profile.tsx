@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navigation from "@/components/Navigation";
 
 const Profile = () => {
@@ -16,11 +17,13 @@ const Profile = () => {
     insuranceId: "20021496",
     phone: "+963 999 000 000",
     email: "samah.hamid@gmail.com",
+    gender: "أنثى",
   });
 
   useEffect(() => { document.title = "الملف الشخصي | JPU ER"; }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [e.target.name]: e.target.value });
+  const onGenderChange = (value: string) => setForm({ ...form, gender: value });
 
   return (
     <>
@@ -83,14 +86,51 @@ const Profile = () => {
               </Dialog>
             </div>
           </CardHeader>
-          <CardContent className="grid sm:grid-cols-2 gap-4 text-right">
-            <div><span className="text-muted-foreground">الاسم:</span> {form.fullName}</div>
-            <div><span className="text-muted-foreground">تاريخ الميلاد:</span> {form.birthDate}</div>
-            <div><span className="text-muted-foreground">الكلية:</span> {form.college}</div>
-            <div><span className="text-muted-foreground">الرقم الجامعي:</span> {form.universityId}</div>
-            <div><span className="text-muted-foreground">رقم بطاقة التأمين:</span> {form.insuranceId}</div>
-            <div><span className="text-muted-foreground">الموبايل:</span> {form.phone}</div>
-            <div className="sm:col-span-2"><span className="text-muted-foreground">البريد الإلكتروني:</span> {form.email}</div>
+          <CardContent dir="rtl" className="grid sm:grid-cols-2 gap-6 text-right">
+            <div className="space-y-2">
+              <Label>اسم الطالب الثلاثي</Label>
+              <Input name="fullName" value={form.fullName} disabled />
+            </div>
+            <div className="space-y-2">
+              <Label>تاريخ الميلاد</Label>
+              <Input type="date" name="birthDate" value={form.birthDate} disabled />
+            </div>
+
+            <div className="space-y-2">
+              <Label>الكلية والقسم</Label>
+              <Input name="college" value={form.college} disabled />
+            </div>
+            <div className="space-y-2">
+              <Label>الرقم الجامعي</Label>
+              <Input name="universityId" value={form.universityId} disabled />
+            </div>
+
+            <div className="space-y-2">
+              <Label>الجنس</Label>
+              <Select value={form.gender} onValueChange={onGenderChange} disabled>
+                <SelectTrigger>
+                  <SelectValue placeholder="اختر الجنس" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ذكر">ذكر</SelectItem>
+                  <SelectItem value="أنثى">أنثى</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>رقم الموبايل</Label>
+              <Input name="phone" value={form.phone} disabled />
+            </div>
+
+            <div className="space-y-2 sm:col-span-2">
+              <Label>البريد الإلكتروني</Label>
+              <Input type="email" name="email" value={form.email} disabled />
+            </div>
+
+            <div className="space-y-2 sm:col-span-2">
+              <Label>رقم بطاقة التأمين</Label>
+              <Input name="insuranceId" value={form.insuranceId} disabled />
+            </div>
           </CardContent>
         </Card>
       </div>
