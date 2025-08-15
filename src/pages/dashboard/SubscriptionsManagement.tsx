@@ -141,7 +141,7 @@ export default function SubscriptionsManagement() {
             <Select onValueChange={setFilterCollege}>
               <SelectTrigger className="w-48"><SelectValue placeholder="عرض حسب الكلية" /></SelectTrigger>
               <SelectContent>
-                {['الكل','الصيدلة','الإدارة','الهندسة المدنية','تقنية المعلومات','الهندسة المعمارية'].map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                {['الكل','الصيدلة','الإدارة','الهندسة المدنية','الهندسة المعلوماتية','الهندسة المعمارية'].map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
               </SelectContent>
             </Select>
             <Input placeholder="بحث بالاسم/الرقم الجامعي/رقم الاشتراك" value={search} onChange={e => setSearch(e.target.value)} className="w-64" />
