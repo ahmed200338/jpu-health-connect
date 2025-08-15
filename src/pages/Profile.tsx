@@ -5,22 +5,100 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogT
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import Navigation from "@/components/Navigation";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Profile = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
   const [form, setForm] = useState({
-    fullName: "سماح الحميد",
-    birthDate: "2002-03-03",
-    college: "كلية الهندسة",
-    universityId: "2012077",
-    insuranceId: "20021496",
-    phone: "+963 999 000 000",
-    email: "samah.hamid@gmail.com",
-    gender: "أنثى",
+    fullName: "",
+    birthDate: "",
+    college: "",
+    universityId: "",
+    insuranceId: "",
+    phone: "",
+    email: "",
+    gender: "",
   });
 
-  useEffect(() => { document.title = "الملف الشخصي | JPU ER"; }, []);
+  useEffect(() => { 
+    document.title = "الملف الشخصي | JPU ER"; 
+    if (user) {
+      fetchUserProfile();
+    }
+  }, [user]);
+
+  const fetchUserProfile = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', user?.email)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        setForm({
+          fullName: data.full_name || "",
+          birthDate: "",
+          college: "",
+          universityId: "",
+          insuranceId: "",
+          phone: data.phone || "",
+          email: data.email || "",
+          gender: "",
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      toast({
+        title: "خطأ",
+        description: "حدث خطأ في تحميل البيانات",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateProfile = async () => {
+    try {
+      setUpdating(true);
+      const { error } = await supabase
+        .from('users')
+        .update({
+          full_name: form.fullName,
+          phone: form.phone,
+        })
+        .eq('email', user?.email);
+
+      if (error) throw error;
+
+      toast({
+        title: "تم بنجاح",
+        description: "تم حفظ التغييرات بنجاح",
+      });
+      setOpen(false);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        title: "خطأ",
+        description: "حدث خطأ في حفظ التغييرات",
+        variant: "destructive",
+      });
+    } finally {
+      setUpdating(false);
+    }
+  };
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [e.target.name]: e.target.value });
   const onGenderChange = (value: string) => setForm({ ...form, gender: value });
@@ -78,15 +156,28 @@ const Profile = () => {
                       <Input type="email" name="email" value={form.email} onChange={onChange} />
                     </div>
                   </div>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setOpen(false)}>إلغاء</Button>
-                    <Button className="bg-green-600 text-white hover:bg-green-700" onClick={() => setOpen(false)}>حفظ</Button>
-                  </DialogFooter>
+                   <DialogFooter>
+                     <Button variant="outline" onClick={() => setOpen(false)} disabled={updating}>إلغاء</Button>
+                     <Button className="bg-green-600 text-white hover:bg-green-700" onClick={handleUpdateProfile} disabled={updating}>
+                       {updating ? "جاري الحفظ..." : "حفظ"}
+                     </Button>
+                   </DialogFooter>
                 </DialogContent>
               </Dialog>
             </div>
           </CardHeader>
-          <CardContent dir="rtl" className="grid sm:grid-cols-2 gap-6 text-right">
+           <CardContent dir="rtl" className="grid sm:grid-cols-2 gap-6 text-right">
+             {loading ? (
+               <>
+                 {[...Array(6)].map((_, i) => (
+                   <div key={i} className="space-y-2">
+                     <Skeleton className="h-4 w-24" />
+                     <Skeleton className="h-10 w-full" />
+                   </div>
+                 ))}
+               </>
+             ) : (
+               <>
             <div className="space-y-2">
               <Label>اسم الطالب الثلاثي</Label>
               <Input name="fullName" value={form.fullName} disabled />
@@ -127,11 +218,13 @@ const Profile = () => {
               <Input type="email" name="email" value={form.email} disabled />
             </div>
 
-            <div className="space-y-2 sm:col-span-2">
-              <Label>رقم بطاقة التأمين</Label>
-              <Input name="insuranceId" value={form.insuranceId} disabled />
-            </div>
-          </CardContent>
+             <div className="space-y-2 sm:col-span-2">
+               <Label>رقم بطاقة التأمين</Label>
+               <Input name="insuranceId" value={form.insuranceId} disabled />
+             </div>
+             </>
+             )}
+           </CardContent>
         </Card>
       </div>
     </div>

@@ -6,36 +6,57 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
 import { MapPin, Phone, Filter, SortAsc, SortDesc } from "lucide-react";
-import type { Governorate, SectionItem } from "@/data/mock";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SectionPageProps {
   title: string;
   disc: string;
   backgroundImage: string;
-  items: SectionItem[];
-  pageKey: string; // for SEO title
+  pageKey: string;
+  tableName: string;
 }
 
-const SectionPage = ({ title, disc, backgroundImage, items, pageKey }: SectionPageProps) => {
+const SectionPage = ({ title, disc, backgroundImage, pageKey, tableName }: SectionPageProps) => {
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [gov, setGov] = useState<"الكل" | Governorate>("الكل");
+  const [gov, setGov] = useState<"الكل" | string>("الكل");
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     document.title = `${title} | JPU ER`;
-  }, [title]);
+    fetchData();
+  }, [title, tableName]);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from(tableName as any)
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+      setItems(data || []);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim();
     let data = items.filter((it) => {
-      const hay = `${it.name} ${it.description} ${it.address}`;
+      const hay = `${it.name || ''} ${it.description || ''} ${it.address || ''}`;
       const matchQuery = q ? hay.includes(q) : true;
       const matchGov = gov === "الكل" ? true : it.region === gov;
       return matchQuery && matchGov;
     });
 
-    data.sort((a, b) => (order === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)));
+    data.sort((a, b) => (order === "asc" ? (a.name || '').localeCompare(b.name || '') : (b.name || '').localeCompare(a.name || '')));
     return data;
   }, [items, query, order, gov]);
 
@@ -96,7 +117,6 @@ const SectionPage = ({ title, disc, backgroundImage, items, pageKey }: SectionPa
                       </SelectTrigger>
                       <SelectContent className="z-[70] bg-popover">
                         <SelectItem value="الكل">الكل</SelectItem>
-                        {/* Governorates will be listed by consumer if needed; using hardcoded is acceptable here */}
                         {[
                           "دمشق","ريف دمشق","حلب","حمص","حماة","اللاذقية","طرطوس","إدلب","دير الزور","الرقة","الحسكة","درعا","السويداء","القنيطرة"
                         ].map((g) => (
@@ -115,29 +135,48 @@ const SectionPage = ({ title, disc, backgroundImage, items, pageKey }: SectionPa
       {/* Grid */}
       <section className="pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <Card key={i} className="card-medical">
+                  <CardHeader className="pb-2">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
             <p className="text-center text-muted-foreground">لا توجد نتائج مطابقة حالياً</p>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((it, idx) => (
-                <Card key={idx} className="card-medical hover:scale-[1.02]">
+              {filtered.map((it) => (
+                <Card key={it.id} className="card-medical hover:scale-[1.02]">
                   <CardHeader className="pb-2">
                     <h3 className="text-xl font-bold text-foreground text-right">{it.name}</h3>
                     <p className="text-sm text-muted-foreground text-right">{it.region}</p>
                   </CardHeader>
                   <CardContent className="space-y-3">
-                    {it.image && (
-                      <img src={it.image} alt={it.name} className="w-full h-40 object-cover rounded-lg" loading="lazy" />
+                    {it.description && (
+                      <p className="text-muted-foreground text-right leading-relaxed">{it.description}</p>
                     )}
-                    <p className="text-muted-foreground text-right leading-relaxed">{it.description}</p>
-                    <div className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      <span>{it.address}</span>
-                    </div>
-                    <div className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
-                      <Phone className="w-4 h-4" />
-                      <span>{it.phone}</span>
-                    </div>
+                    {it.address && (
+                      <div className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
+                        <MapPin className="w-4 h-4" />
+                        <span>{it.address}</span>
+                      </div>
+                    )}
+                    {it.phone && (
+                      <div className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
+                        <Phone className="w-4 h-4" />
+                        <span>{it.phone}</span>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               ))}

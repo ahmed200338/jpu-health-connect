@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      dental_clinics: {
+        Row: {
+          address: string | null
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+          phone: string | null
+          region: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Relationships: []
+      }
       doctors: {
         Row: {
           address: string | null
@@ -110,6 +140,36 @@ export type Database = {
         }
         Relationships: []
       }
+      optical_clinics: {
+        Row: {
+          address: string | null
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+          phone: string | null
+          region: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Relationships: []
+      }
       pharmacies: {
         Row: {
           address: string | null
@@ -130,6 +190,66 @@ export type Database = {
         Update: {
           address?: string | null
           created_at?: string
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Relationships: []
+      }
+      physical_therapy_centers: {
+        Row: {
+          address: string | null
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+          phone: string | null
+          region: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Relationships: []
+      }
+      radiology_centers: {
+        Row: {
+          address: string | null
+          created_at: string
+          description: string | null
+          id: number
+          name: string | null
+          phone: string | null
+          region: string | null
+        }
+        Insert: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string | null
+          phone?: string | null
+          region?: string | null
+        }
+        Update: {
+          address?: string | null
+          created_at?: string
+          description?: string | null
           id?: number
           name?: string | null
           phone?: string | null
