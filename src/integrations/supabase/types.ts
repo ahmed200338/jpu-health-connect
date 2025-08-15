@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "13.0.4"
@@ -144,6 +144,8 @@ export type Database = {
           created_at: string
           gender: string | null
           id: number
+          plan: Database["public"]["Enums"]["insurance_plan"] | null
+          request_status: Database["public"]["Enums"]["request_status"] | null
           student_id: number | null
           user_id: number | null
         }
@@ -153,6 +155,8 @@ export type Database = {
           created_at?: string
           gender?: string | null
           id?: number
+          plan?: Database["public"]["Enums"]["insurance_plan"] | null
+          request_status?: Database["public"]["Enums"]["request_status"] | null
           student_id?: number | null
           user_id?: number | null
         }
@@ -162,6 +166,8 @@ export type Database = {
           created_at?: string
           gender?: string | null
           id?: number
+          plan?: Database["public"]["Enums"]["insurance_plan"] | null
+          request_status?: Database["public"]["Enums"]["request_status"] | null
           student_id?: number | null
           user_id?: number | null
         }
@@ -174,6 +180,27 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      subscription_requests: {
+        Row: {
+          created_at: string
+          id: number
+          registration_open: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          registration_open?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          registration_open?: boolean
+          updated_at?: string
+        }
+        Relationships: []
       }
       system_settings: {
         Row: {
@@ -231,7 +258,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      insurance_plan: "gold" | "silver" | "bronze"
+      request_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -358,6 +386,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      insurance_plan: ["gold", "silver", "bronze"],
+      request_status: ["pending", "approved", "rejected"],
+    },
   },
 } as const
