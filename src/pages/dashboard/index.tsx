@@ -24,42 +24,59 @@ export default function DashboardHome() {
     };
 
     (async () => {
-      const [users, subs, pharmacies, doctors, labs, hospitals] = await Promise.all([
-        getCount("users"),
-        getCount("student_subscription"),
-        getCount("pharmacies"),
-        getCount("doctors"),
-        getCount("laboratories"),
-        getCount("hospitals"),
-      ]);
-      const services = pharmacies + doctors + labs + hospitals;
-      setCounts({ users, subs, services, pharmacies, doctors, labs, hospitals, all: services });
+      try {
+        const [users, subs, pharmacies, doctors, labs, hospitals] = await Promise.all([
+          getCount("users"),
+          getCount("student_subscription"),
+          getCount("pharmacies"),
+          getCount("doctors"),
+          getCount("laboratories"),
+          getCount("hospitals"),
+        ]);
+        const services = pharmacies + doctors + labs + hospitals;
+        setCounts({ users, subs, services, pharmacies, doctors, labs, hospitals, all: services });
 
-      const { data: subRows } = await supabase.from("student_subscription").select("plan, college_department, created_at");
-      const plansCount: Record<string, number> = {};
-      const collegeCount: Record<string, number> = {};
-      (subRows || []).forEach((r: any) => {
-        const p = r.plan || "غير محدد";
-        plansCount[p] = (plansCount[p] || 0) + 1;
-        const c = r.college_department || "أخرى";
-        collegeCount[c] = (collegeCount[c] || 0) + 1;
-      });
-      setPlans(plansCount);
-      setColleges(collegeCount);
+        const { data: subRows, error: subError } = await supabase
+          .from("student_subscription")
+          .select("plan, college_department, created_at");
+          
+        if (subError) {
+          console.error("Error fetching subscription data:", subError);
+        } else {
+          const plansCount: Record<string, number> = {};
+          const collegeCount: Record<string, number> = {};
+          (subRows || []).forEach((r: any) => {
+            const p = r.plan || "غير محدد";
+            plansCount[p] = (plansCount[p] || 0) + 1;
+            const c = r.college_department || "أخرى";
+            collegeCount[c] = (collegeCount[c] || 0) + 1;
+          });
+          setPlans(plansCount);
+          setColleges(collegeCount);
+        }
 
-      const { data: latestS } = await supabase
-        .from("student_subscription")
-        .select("created_at, college_department, plan, student_id")
-        .order("created_at", { ascending: false })
-        .limit(6);
-      setLatestSubs(latestS || []);
+        const { data: latestS, error: latestSubsError } = await supabase
+          .from("student_subscription")
+          .select("created_at, college_department, plan, student_id")
+          .order("created_at", { ascending: false })
+          .limit(6);
+          
+        if (!latestSubsError) {
+          setLatestSubs(latestS || []);
+        }
 
-      const { data: latestU } = await supabase
-        .from("users")
-        .select("created_at, full_name, email, role")
-        .order("created_at", { ascending: false })
-        .limit(6);
-      setLatestUsers(latestU || []);
+        const { data: latestU, error: latestUsersError } = await supabase
+          .from("users")
+          .select("created_at, full_name, email, role")
+          .order("created_at", { ascending: false })
+          .limit(6);
+          
+        if (!latestUsersError) {
+          setLatestUsers(latestU || []);
+        }
+      } catch (error) {
+        console.error("Error loading dashboard data:", error);
+      }
     })();
   }, []);
 

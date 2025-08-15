@@ -8,6 +8,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { exportToCSV, exportToXLSX } from "@/utils/export";
+import { toast } from "sonner";
 
 interface UserRow { id: number; created_at: string; full_name?: string | null; email?: string | null; phone?: string | null; role?: string | null; }
 
@@ -20,11 +21,52 @@ export default function UsersManagement() {
 
   useEffect(() => {
     setPageSEO("إدارة المستخدمين", "عرض وإدارة المستخدمين", location.origin + "/dashboard/users");
-    (async () => {
-      const { data } = await supabase.from("users").select("id, created_at, full_name, email, phone, role");
-      setRows(data || []);
-    })();
+    loadUsers();
   }, []);
+
+  const loadUsers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select("id, created_at, full_name, email, phone, role")
+        .order("created_at", { ascending: false });
+      
+      if (error) {
+        console.error("Error fetching users:", error);
+        toast.error("خطأ في تحميل البيانات");
+        setRows([]);
+      } else {
+        setRows(data || []);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("خطأ غير متوقع");
+      setRows([]);
+    }
+  };
+
+  const deleteUsers = async () => {
+    if (selected.length === 0) return;
+    
+    try {
+      const { error } = await supabase
+        .from("users")
+        .delete()
+        .in("id", selected);
+      
+      if (error) {
+        console.error("Error deleting users:", error);
+        toast.error("خطأ في حذف المستخدمين");
+      } else {
+        toast.success(`تم حذف ${selected.length} مستخدم`);
+        setSelected([]);
+        loadUsers();
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("خطأ غير متوقع");
+    }
+  };
 
   const filtered = useMemo(() => {
     let r = [...rows];
@@ -60,7 +102,7 @@ export default function UsersManagement() {
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
               <DialogContent><DialogHeader><DialogTitle>تعديل مستخدم</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">التعديل قيد التطوير.</div></DialogContent>
             </Dialog>
-            <Button variant="destructive" disabled={!selected.length}>حذف</Button>
+            <Button variant="destructive" disabled={!selected.length} onClick={deleteUsers}>حذف</Button>
             <Button onClick={() => exportToCSV("users.csv", filtered as any)}>تصدير CSV</Button>
             <Button onClick={() => exportToXLSX("users.xlsx", filtered as any)}>تصدير Excel</Button>
           </div>

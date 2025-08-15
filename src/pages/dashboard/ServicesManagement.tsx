@@ -9,6 +9,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { exportToCSV, exportToXLSX } from "@/utils/export";
+import { toast } from "sonner";
 
 interface Row { id: number; created_at: string; name?: string | null; address?: string | null; phone?: string | null; region?: string | null; specialty?: string | null; department?: string | null; }
 
@@ -25,28 +26,82 @@ export default function ServicesManagement() {
   }, []);
 
   useEffect(() => {
-    (async () => {
-      if (type === "الكل" || type === "الأطباء") {
-        const { data } = await supabase.from("doctors").select("id, created_at, name, address, phone, region, specialty, department");
-        setRows((data || []).map(d => ({ ...d })));
-      }
-      if (type === "الصيدليات") {
-        const { data } = await supabase.from("pharmacies").select("id, created_at, name, address, phone, region");
-        setRows(data || []);
-      }
-      if (type === "المختبرات") {
-        const { data } = await supabase.from("laboratories").select("id, created_at, name, address, phone, region");
-        setRows(data || []);
-      }
-      if (type === "المستشفيات") {
-        const { data } = await supabase.from("hospitals").select("id, created_at, name, address, phone, region");
-        setRows(data || []);
-      }
-      if (["عيادات الأسنان","العيون","الأشعة","المعالجة الفيزيائية"].includes(type)) {
-        setRows([]); // غير متوفرة كجداول منفصلة حالياً
-      }
-    })();
+    loadServices();
   }, [type]);
+
+  const loadServices = async () => {
+    try {
+      let allData: Row[] = [];
+      
+      if (type === "الكل") {
+        const [doctors, pharmacies, labs, hospitals] = await Promise.all([
+          supabase.from("doctors").select("id, created_at, name, address, phone, region, specialty, department"),
+          supabase.from("pharmacies").select("id, created_at, name, address, phone, region"),
+          supabase.from("laboratories").select("id, created_at, name, address, phone, region"),
+          supabase.from("hospitals").select("id, created_at, name, address, phone, region")
+        ]);
+        
+        allData = [
+          ...(doctors.data || []),
+          ...(pharmacies.data || []),
+          ...(labs.data || []),
+          ...(hospitals.data || [])
+        ];
+      } else if (type === "الأطباء") {
+        const { data, error } = await supabase.from("doctors").select("id, created_at, name, address, phone, region, specialty, department");
+        if (error) throw error;
+        allData = data || [];
+      } else if (type === "الصيدليات") {
+        const { data, error } = await supabase.from("pharmacies").select("id, created_at, name, address, phone, region");
+        if (error) throw error;
+        allData = data || [];
+      } else if (type === "المختبرات") {
+        const { data, error } = await supabase.from("laboratories").select("id, created_at, name, address, phone, region");
+        if (error) throw error;
+        allData = data || [];
+      } else if (type === "المستشفيات") {
+        const { data, error } = await supabase.from("hospitals").select("id, created_at, name, address, phone, region");
+        if (error) throw error;
+        allData = data || [];
+      } else {
+        allData = []; // غير متوفرة كجداول منفصلة حالياً
+      }
+      
+      setRows(allData);
+    } catch (error) {
+      console.error("Error loading services:", error);
+      toast.error("خطأ في تحميل البيانات");
+      setRows([]);
+    }
+  };
+
+  const deleteServices = async () => {
+    if (selected.length === 0) return;
+    
+    try {
+      // حذف من الجداول المختلفة حسب النوع
+      if (type === "الأطباء") {
+        const { error } = await supabase.from("doctors").delete().in("id", selected);
+        if (error) throw error;
+      } else if (type === "الصيدليات") {
+        const { error } = await supabase.from("pharmacies").delete().in("id", selected);
+        if (error) throw error;
+      } else if (type === "المختبرات") {
+        const { error } = await supabase.from("laboratories").delete().in("id", selected);
+        if (error) throw error;
+      } else if (type === "المستشفيات") {
+        const { error } = await supabase.from("hospitals").delete().in("id", selected);
+        if (error) throw error;
+      }
+      
+      toast.success(`تم حذف ${selected.length} عنصر`);
+      setSelected([]);
+      loadServices();
+    } catch (error) {
+      console.error("Error deleting services:", error);
+      toast.error("خطأ في حذف العناصر");
+    }
+  };
 
   const filtered = useMemo(() => {
     let r = [...rows];
@@ -83,7 +138,7 @@ export default function ServicesManagement() {
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
               <DialogContent><DialogHeader><DialogTitle>تعديل خدمة</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">التعديل قيد التطوير.</div></DialogContent>
             </Dialog>
-            <Button variant="destructive" disabled={!selected.length}>حذف</Button>
+            <Button variant="destructive" disabled={!selected.length} onClick={deleteServices}>حذف</Button>
             <Button onClick={() => exportToCSV("services.csv", filtered as any)}>تصدير CSV</Button>
             <Button onClick={() => exportToXLSX("services.xlsx", filtered as any)}>تصدير Excel</Button>
           </div>

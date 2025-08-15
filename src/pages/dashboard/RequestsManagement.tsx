@@ -14,12 +14,26 @@ export default function RequestsManagement() {
 
   const load = async () => {
     setLoading(true);
-    const { data } = await (supabase as any)
-      .from("student_subscription")
-      .select("id, created_at, student_id, college_department, request_status")
-      .eq("request_status", "pending");
-    setRows((data as any[]) || []);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from("student_subscription")
+        .select("id, created_at, student_id, college_department, plan, request_status")
+        .eq("request_status", "pending");
+      
+      if (error) {
+        console.error("Error fetching requests:", error);
+        toast.error("خطأ في تحميل البيانات");
+        setRows([]);
+      } else {
+        setRows(data || []);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("خطأ غير متوقع");
+      setRows([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

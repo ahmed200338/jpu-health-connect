@@ -36,18 +36,68 @@ export default function SubscriptionsManagement() {
 
   useEffect(() => {
     setPageSEO("إدارة الاشتراكات", "إدارة اشتراكات الطلاب في التأمين", location.origin + "/dashboard/subscriptions");
-    (async () => {
-      const { data } = await supabase.from("student_subscription").select("id, created_at, user_id, student_id, college_department, plan, request_status, gender, birth_date");
+    loadSubscriptions();
+  }, []);
+
+  const loadSubscriptions = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("student_subscription")
+        .select("id, created_at, user_id, student_id, college_department, plan, request_status, gender, birth_date")
+        .order("created_at", { ascending: false });
+        
+      if (error) {
+        console.error("Error fetching subscriptions:", error);
+        toast.error("خطأ في تحميل البيانات");
+        setRows([]);
+        return;
+      }
+      
       const subs = data || [];
       const userIds = subs.map((s: any) => s.user_id).filter(Boolean);
       let names: Record<string, string> = {};
+      
       if (userIds.length) {
-        const { data: users } = await supabase.from("users").select("id, full_name").in("id", userIds as any);
-        (users || []).forEach((u: any) => (names[u.id] = u.full_name));
+        const { data: users, error: usersError } = await supabase
+          .from("users")
+          .select("id, full_name")
+          .in("id", userIds as any);
+          
+        if (!usersError && users) {
+          users.forEach((u: any) => (names[u.id] = u.full_name));
+        }
       }
+      
       setRows(subs.map((s: any) => ({ ...s, full_name: names[String(s.user_id)] || null })));
-    })();
-  }, []);
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("خطأ غير متوقع");
+      setRows([]);
+    }
+  };
+
+  const deleteSubscriptions = async () => {
+    if (selected.length === 0) return;
+    
+    try {
+      const { error } = await supabase
+        .from("student_subscription")
+        .delete()
+        .in("id", selected);
+      
+      if (error) {
+        console.error("Error deleting subscriptions:", error);
+        toast.error("خطأ في حذف الاشتراكات");
+      } else {
+        toast.success(`تم حذف ${selected.length} اشتراك`);
+        setSelected([]);
+        loadSubscriptions();
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("خطأ غير متوقع");
+    }
+  };
 
   const toggleSort = (k: keyof SubRow) => {
     if (sortKey === k) setSortDir(sortDir === "asc" ? "desc" : "asc");
@@ -157,7 +207,7 @@ export default function SubscriptionsManagement() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>إلغاء</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { setRows(rows.filter(r => !selected.includes(r.id))); setSelected([]); toast.success("تمت الإزالة من العرض"); }}>تأكيد</AlertDialogAction>
+            <AlertDialogAction onClick={() => { deleteSubscriptions(); setOpenConfirm(false); }}>تأكيد</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
