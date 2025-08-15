@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -15,8 +16,54 @@ import {
 } from "lucide-react";
 import doctorHero from "@/assets/doctor-hero.jpg";
 import medicalTeam from "@/assets/medical-team.jpg";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Home = () => {
+  const { user } = useAuth();
+  const [hasSubscription, setHasSubscription] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Get user data from users table
+        const { data: userData, error: userError } = await supabase
+          .from("users")
+          .select("id")
+          .eq("email", user.email)
+          .single();
+
+        if (userError || !userData) {
+          setLoading(false);
+          return;
+        }
+
+        // Check if user has an active subscription
+        const { data: subscription, error: subError } = await supabase
+          .from("student_subscription")
+          .select("id")
+          .eq("user_id", userData.id)
+          .eq("request_status", "approved")
+          .maybeSingle();
+
+        if (!subError && subscription) {
+          setHasSubscription(true);
+        }
+      } catch (error) {
+        console.error("Error checking subscription:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSubscription();
+  }, [user]);
   const features = [
     {
       icon: Shield,
@@ -73,12 +120,22 @@ const Home = () => {
                 موقع التأمين الصحي الجامعي لطلاب جامعة الجزيرة الخاصة
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register">
-                  <Button size="lg" className="btn-medical text-lg px-8 py-4">
-                    إنشاء حساب جديد
-                    <ChevronLeft className="w-5 h-5 mr-2" />
-                  </Button>
-                </Link>
+                {!user && (
+                  <Link to="/register">
+                    <Button size="lg" className="btn-medical text-lg px-8 py-4">
+                      إنشاء حساب جديد
+                      <ChevronLeft className="w-5 h-5 mr-2" />
+                    </Button>
+                  </Link>
+                )}
+                {user && !hasSubscription && !loading && (
+                  <Link to="/subscription">
+                    <Button size="lg" className="btn-medical text-lg px-8 py-4">
+                      الاشتراك بالتأمين
+                      <ChevronLeft className="w-5 h-5 mr-2" />
+                    </Button>
+                  </Link>
+                )}
                 <Link to="/departments">
                   <Button
                     size="lg"
