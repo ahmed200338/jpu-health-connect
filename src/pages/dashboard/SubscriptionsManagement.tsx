@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import AddSubscriptionForm from "@/components/forms/AddSubscriptionForm";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
@@ -33,6 +34,7 @@ export default function SubscriptionsManagement() {
   const [sortKey, setSortKey] = useState<keyof SubRow>("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [showAddDialog, setShowAddDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة الاشتراكات", "إدارة اشتراكات الطلاب في التأمين", location.origin + "/dashboard/subscriptions");
@@ -143,11 +145,17 @@ export default function SubscriptionsManagement() {
             <Input placeholder="بحث بالاسم/الرقم الجامعي/رقم الاشتراك" value={search} onChange={e => setSearch(e.target.value)} className="w-64" />
           </div>
           <div className="flex items-center gap-2">
-            <Dialog>
+            <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
               <DialogTrigger asChild><Button variant="secondary">إضافة</Button></DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-2xl">
                 <DialogHeader><DialogTitle>إضافة مشترك</DialogTitle></DialogHeader>
-                <div className="text-sm text-muted-foreground">سيتم تفعيل الحفظ بعد تهيئة قاعدة البيانات للقيود اللازمة.</div>
+                <AddSubscriptionForm
+                  onSuccess={() => {
+                    setShowAddDialog(false);
+                    loadSubscriptions();
+                  }}
+                  onCancel={() => setShowAddDialog(false)}
+                />
               </DialogContent>
             </Dialog>
             <Dialog>

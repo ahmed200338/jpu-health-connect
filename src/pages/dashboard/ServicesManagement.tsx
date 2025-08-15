@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import AddServiceForm from "@/components/forms/AddServiceForm";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,6 +21,7 @@ export default function ServicesManagement() {
   const [selected, setSelected] = useState<number[]>([]);
   const [search, setSearch] = useState("");
   const [type, setType] = useState<ServiceType>("الكل");
+  const [showAddDialog, setShowAddDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة خدمات التأمين", "إدارة مقدمي الخدمات الطبية", location.origin + "/dashboard/services");

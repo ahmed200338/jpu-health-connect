@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import AddUserForm from "@/components/forms/AddUserForm";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,6 +19,7 @@ export default function UsersManagement() {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<keyof UserRow>("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [showAddDialog, setShowAddDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة المستخدمين", "عرض وإدارة المستخدمين", location.origin + "/dashboard/users");
@@ -94,9 +96,18 @@ export default function UsersManagement() {
         <CardContent className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <Input placeholder="بحث بالاسم أو البريد" value={search} onChange={e => setSearch(e.target.value)} className="w-64" />
           <div className="flex items-center gap-2">
-            <Dialog>
+            <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
               <DialogTrigger asChild><Button variant="secondary">إضافة</Button></DialogTrigger>
-              <DialogContent><DialogHeader><DialogTitle>إضافة مستخدم</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">إدارة المستخدمين للعرض فقط حالياً.</div></DialogContent>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader><DialogTitle>إضافة مستخدم</DialogTitle></DialogHeader>
+                <AddUserForm
+                  onSuccess={() => {
+                    setShowAddDialog(false);
+                    loadUsers();
+                  }}
+                  onCancel={() => setShowAddDialog(false)}
+                />
+              </DialogContent>
             </Dialog>
             <Dialog>
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
