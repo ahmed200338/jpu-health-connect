@@ -3,7 +3,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import Navigation from "@/components/Navigation";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 
 const plans = [
@@ -53,8 +58,79 @@ const plans = [
 ];
 
 const Subscription = () => {
-  const [selected, setSelected] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [showDialog, setShowDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    studentId: "",
+    birthDate: "",
+    gender: "",
+    collegeDepartment: ""
+  });
+  
+  const { user } = useAuth();
+  const { toast } = useToast();
+  
   useEffect(() => { document.title = "الاشتراك بالتأمين | JPU ER"; }, []);
+
+  const handlePlanSelect = (planKey: string) => {
+    setSelectedPlan(planKey);
+    setShowDialog(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      toast({
+        title: "خطأ",
+        description: "يجب تسجيل الدخول أولاً",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error } = await supabase
+        .from('student_subscription')
+        .insert({
+          user_id: parseInt(user.id),
+          student_id: parseInt(formData.studentId),
+          plan: selectedPlan as "bronze" | "silver" | "gold",
+          college_department: formData.collegeDepartment,
+          gender: formData.gender,
+          birth_date: formData.birthDate,
+          request_status: "pending"
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "تم إرسال الطلب بنجاح",
+        description: "سيتم مراجعة طلبك وإرسال الرد عبر البريد الإلكتروني",
+      });
+      
+      setShowDialog(false);
+      setFormData({
+        studentId: "",
+        birthDate: "",
+        gender: "",
+        collegeDepartment: ""
+      });
+    } catch (error) {
+      toast({
+        title: "خطأ في إرسال الطلب",
+        description: "حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مرة أخرى",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateField = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
     <>
@@ -85,7 +161,12 @@ const Subscription = () => {
                     <span className="text-accent/70 text-base font-normal"> / السنة</span>
                   </div>
                   
-                    <Button type="submit" className="w-full btn-medical">طلب اشتراك</Button>
+                    <Button 
+                      onClick={() => handlePlanSelect(plan.key)}
+                      className="w-full btn-medical"
+                    >
+                      طلب اشتراك
+                    </Button>
                   
                 </CardContent>
               </div>
@@ -93,6 +174,99 @@ const Subscription = () => {
           ))}
         </div>
       </div>
+
+      {/* نموذج طلب الاشتراك */}
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-right text-accent">
+              الاشتراك في {selectedPlan === 'bronze' ? 'الباقة البرونزية' : 
+                         selectedPlan === 'silver' ? 'الباقة الفضية' : 
+                         'الباقة الذهبية'}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="studentId" className="text-accent">الرقم الجامعي</Label>
+              <Input
+                id="studentId"
+                type="number"
+                required
+                value={formData.studentId}
+                onChange={(e) => updateField('studentId', e.target.value)}
+                className="mt-1 text-right"
+                placeholder="أدخل الرقم الجامعي"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="birthDate" className="text-accent">تاريخ الميلاد</Label>
+              <Input
+                id="birthDate"
+                type="date"
+                required
+                value={formData.birthDate}
+                onChange={(e) => updateField('birthDate', e.target.value)}
+                className="mt-1"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="gender" className="text-accent">الجنس</Label>
+              <Select value={formData.gender} onValueChange={(value) => updateField('gender', value)}>
+                <SelectTrigger className="mt-1 text-right">
+                  <SelectValue placeholder="اختر الجنس" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">ذكر</SelectItem>
+                  <SelectItem value="female">أنثى</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="collegeDepartment" className="text-accent">الكلية/القسم</Label>
+              <Select value={formData.collegeDepartment} onValueChange={(value) => updateField('collegeDepartment', value)}>
+                <SelectTrigger className="mt-1 text-right">
+                  <SelectValue placeholder="اختر الكلية/القسم" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="كلية الطب">كلية الطب</SelectItem>
+                  <SelectItem value="كلية الهندسة">كلية الهندسة</SelectItem>
+                  <SelectItem value="كلية العلوم">كلية العلوم</SelectItem>
+                  <SelectItem value="كلية الآداب">كلية الآداب</SelectItem>
+                  <SelectItem value="كلية التربية">كلية التربية</SelectItem>
+                  <SelectItem value="كلية الاقتصاد">كلية الاقتصاد</SelectItem>
+                  <SelectItem value="كلية الحقوق">كلية الحقوق</SelectItem>
+                  <SelectItem value="كلية الزراعة">كلية الزراعة</SelectItem>
+                  <SelectItem value="كلية طب الأسنان">كلية طب الأسنان</SelectItem>
+                  <SelectItem value="كلية الصيدلة">كلية الصيدلة</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex gap-3 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setShowDialog(false)}
+                className="flex-1"
+                disabled={loading}
+              >
+                إلغاء
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 btn-medical"
+                disabled={loading || !formData.studentId || !formData.birthDate || !formData.gender || !formData.collegeDepartment}
+              >
+                {loading ? "جاري الإرسال..." : "طلب اشتراك"}
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
     </>
   );
