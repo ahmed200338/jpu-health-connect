@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import AddSubscriptionForm from "@/components/forms/AddSubscriptionForm";
+import EditSubscriptionForm from "@/components/forms/EditSubscriptionForm";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, } from "@/components/ui/alert-dialog";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
@@ -35,6 +36,7 @@ export default function SubscriptionsManagement() {
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [openConfirm, setOpenConfirm] = useState(false);
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة الاشتراكات", "إدارة اشتراكات الطلاب في التأمين", location.origin + "/dashboard/subscriptions");
@@ -158,11 +160,21 @@ export default function SubscriptionsManagement() {
                 />
               </DialogContent>
             </Dialog>
-            <Dialog>
+            <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-w-2xl">
                 <DialogHeader><DialogTitle>تعديل مشترك</DialogTitle></DialogHeader>
-                <div className="text-sm text-muted-foreground">التعديل قيد التطوير.</div>
+                {selected.length === 1 && (
+                  <EditSubscriptionForm
+                    subscriptionId={selected[0]}
+                    onSuccess={() => {
+                      setShowEditDialog(false);
+                      setSelected([]);
+                      loadSubscriptions();
+                    }}
+                    onCancel={() => setShowEditDialog(false)}
+                  />
+                )}
               </DialogContent>
             </Dialog>
             <Button variant="destructive" disabled={!selected.length} onClick={() => setOpenConfirm(true)}>حذف</Button>

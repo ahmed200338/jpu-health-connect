@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import AddServiceForm from "@/components/forms/AddServiceForm";
+import EditServiceForm from "@/components/forms/EditServiceForm";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,6 +23,7 @@ export default function ServicesManagement() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState<ServiceType>("الكل");
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة خدمات التأمين", "إدارة مقدمي الخدمات الطبية", location.origin + "/dashboard/services");
@@ -147,9 +149,28 @@ export default function ServicesManagement() {
                 )}
               </DialogContent>
             </Dialog>
-            <Dialog>
+            <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
-              <DialogContent><DialogHeader><DialogTitle>تعديل خدمة</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">التعديل قيد التطوير.</div></DialogContent>
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader><DialogTitle>تعديل خدمة - {type}</DialogTitle></DialogHeader>
+                {selected.length === 1 && type !== "الكل" && (
+                  <EditServiceForm
+                    serviceId={selected[0]}
+                    serviceType={type}
+                    onSuccess={() => {
+                      setShowEditDialog(false);
+                      setSelected([]);
+                      loadServices();
+                    }}
+                    onCancel={() => setShowEditDialog(false)}
+                  />
+                )}
+                {(selected.length !== 1 || type === "الكل") && (
+                  <div className="text-sm text-muted-foreground">
+                    يرجى اختيار عنصر واحد ونوع خدمة محدد للتعديل.
+                  </div>
+                )}
+              </DialogContent>
             </Dialog>
             <Button variant="destructive" disabled={!selected.length} onClick={deleteServices}>حذف</Button>
             <Button onClick={() => exportToCSV("services.csv", filtered as any)}>تصدير CSV</Button>

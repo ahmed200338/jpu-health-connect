@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import AddUserForm from "@/components/forms/AddUserForm";
+import EditUserForm from "@/components/forms/EditUserForm";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { setPageSEO } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,6 +21,7 @@ export default function UsersManagement() {
   const [sortKey, setSortKey] = useState<keyof UserRow>("created_at");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   useEffect(() => {
     setPageSEO("إدارة المستخدمين", "عرض وإدارة المستخدمين", location.origin + "/dashboard/users");
@@ -109,9 +111,22 @@ export default function UsersManagement() {
                 />
               </DialogContent>
             </Dialog>
-            <Dialog>
+            <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
-              <DialogContent><DialogHeader><DialogTitle>تعديل مستخدم</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">التعديل قيد التطوير.</div></DialogContent>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader><DialogTitle>تعديل مستخدم</DialogTitle></DialogHeader>
+                {selected.length === 1 && (
+                  <EditUserForm
+                    userId={selected[0]}
+                    onSuccess={() => {
+                      setShowEditDialog(false);
+                      setSelected([]);
+                      loadUsers();
+                    }}
+                    onCancel={() => setShowEditDialog(false)}
+                  />
+                )}
+              </DialogContent>
             </Dialog>
             <Button variant="destructive" disabled={!selected.length} onClick={deleteUsers}>حذف</Button>
             <Button onClick={() => exportToCSV("users.csv", filtered as any)}>تصدير CSV</Button>
