@@ -186,8 +186,8 @@ export default function ServicesManagement() {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-10"><Checkbox checked={selected.length === filtered.length && filtered.length>0} onCheckedChange={(v) => toggleAll(!!v)} /></TableHead>
-                <TableHead>الاسم</TableHead>
-                <TableHead>التخصص/القسم</TableHead>
+                <TableHead >الاسم</TableHead>
+                <TableHead>القسم</TableHead>
                 <TableHead>العنوان</TableHead>
                 <TableHead>الهاتف</TableHead>
                 <TableHead>المحافظة</TableHead>

@@ -64,10 +64,10 @@ const SectionPage = ({ title, disc, backgroundImage, pageKey, tableName }: Secti
     <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="relative py-52 bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div className="absolute inset-0 bg-primary/20" />
+        <div className="absolute inset-0 bg-primary/15" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-start text-white">
-          <h1 className="text-5xl pb-4  text-accent font-bold">{title}</h1>
-          <p className="text-accent text-lg mt-2">{disc}</p>
+          <h1 className="text-5xl   text-accent font-bold">{title}</h1>
+          <p className="text-accent text-lg mb-2">{disc}</p>
         </div>
       </section>
 
