@@ -111,7 +111,10 @@ const Subscription = () => {
         request_status: "pending",
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
 
       toast({
         title: "تم إرسال الطلب بنجاح",
