@@ -255,11 +255,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_admin: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       insurance_plan: "gold" | "silver" | "bronze"
       request_status: "pending" | "approved" | "rejected"
+      subscription_plan: "gold" | "silver" | "bronze"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -389,6 +393,7 @@ export const Constants = {
     Enums: {
       insurance_plan: ["gold", "silver", "bronze"],
       request_status: ["pending", "approved", "rejected"],
+      subscription_plan: ["gold", "silver", "bronze"],
     },
   },
 } as const
