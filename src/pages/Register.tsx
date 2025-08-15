@@ -1,42 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, Mail, Lock, User, Phone, Shield } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import doctorHero from "@/assets/doctor-hero.jpg";
 
 const Register = () => {
-  const { toast } = useToast();
+  const { signUp, user, loading } = useAuth();
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
     email: "",
     password: "",
     phone: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
-    if (!formData.name || !formData.email || !formData.password || !formData.phone) {
-      toast({
-        title: "خطأ في البيانات",
-        description: "يرجى ملء جميع الحقول المطلوبة",
-        variant: "destructive"
-      });
+    if (!formData.fullName || !formData.email || !formData.password || !formData.phone) {
       return;
     }
 
-    // Simulate registration
-    toast({
-      title: "تم إنشاء الحساب بنجاح",
-      description: "مرحباً بك في نظام التأمين الصحي لجامعة الجزيرة الخاصة",
-    });
-    
-    console.log("Registration data:", formData);
+    setIsSubmitting(true);
+    await signUp(formData.email, formData.password, formData.fullName, formData.phone);
+    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,17 +101,18 @@ const Register = () => {
               <CardContent>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name" className="text-right block">الاسم :</Label>
+                    <Label htmlFor="fullName" className="text-right block">الاسم الكامل:</Label>
                     <div className="relative">
                       <Input
-                        id="name"
-                        name="name"
+                        id="fullName"
+                        name="fullName"
                         type="text"
                         placeholder="الاسم الكامل"
-                        value={formData.name}
+                        value={formData.fullName}
                         onChange={handleChange}
                         className="pr-10"
                         dir="rtl"
+                        required
                       />
                       <User className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
@@ -129,6 +130,7 @@ const Register = () => {
                         onChange={handleChange}
                         className="pr-10 rtl"
                         dir="rtl"
+                        required
                       />
                       <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
@@ -146,6 +148,7 @@ const Register = () => {
                         onChange={handleChange}
                         className="pr-10 rtl"
                         dir="rtl"
+                        required
                       />
                       <Lock className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
@@ -163,13 +166,18 @@ const Register = () => {
                         onChange={handleChange}
                         className="pr-10 rtl"
                         dir="rtl"
+                        required
                       />
                       <Phone className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     </div>
                   </div>
 
-                  <Button type="submit" className="w-full btn-medical">
-                    تسجيل دخول
+                  <Button 
+                    type="submit" 
+                    className="w-full btn-medical"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "جارٍ إنشاء الحساب..." : "إنشاء حساب"}
                   </Button>
 
                   <div className="text-center text-sm text-muted-foreground">

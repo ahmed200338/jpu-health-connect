@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, X, UserCircle, LogIn, UserPlus, ChevronDown, User } from "lucide-react";
+import { Menu, X, UserCircle, LogIn, UserPlus, ChevronDown, User, LogOut } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut, userRole } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -73,19 +75,37 @@ const Navigation = () => {
 
           {/* Right side */}
           <div className="hidden md:flex items-center space-x-4 space-x-reverse">
-            
-            <Link to="/login">
-              <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary text-lg">
-                <LogIn className="w-4 h-4" />
-                <span>تسجيل الخروج</span>
-              </Button>
-            </Link>
-            {/* <Link to="/register">
-              <Button  size="sm" className="btn-medical space-x-2 space-x-reverse text-lg">
-                <UserPlus className="w-4 h-4" />
-                <span>إنشاء حساب</span>
-              </Button>
-            </Link> */}
+            {user ? (
+              <div className="flex items-center space-x-4 space-x-reverse">
+                <span className="text-sm text-muted-foreground">
+                  مرحباً، {user.user_metadata?.full_name || user.email}
+                </span>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="space-x-2 space-x-reverse border-primary text-lg"
+                  onClick={signOut}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>تسجيل الخروج</span>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="space-x-2 space-x-reverse border-primary text-lg">
+                    <LogIn className="w-4 h-4" />
+                    <span>تسجيل الدخول</span>
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button size="sm" className="btn-medical space-x-2 space-x-reverse text-lg">
+                    <UserPlus className="w-4 h-4" />
+                    <span>إنشاء حساب</span>
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -133,18 +153,34 @@ const Navigation = () => {
               </div>
               <div className="pt-4 space-y-2">
                 <Link to="/subscription" onClick={() => setIsMenuOpen(false)} className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground">الاشتراك بالتأمين</Link>
-                <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                  <Button variant="ghost" className="w-full justify-start space-x-2 space-x-reverse">
-                    <LogIn className="w-4 h-4" />
-                    <span>تسجيل دخول</span>
+                {user ? (
+                  <Button 
+                    variant="ghost" 
+                    className="w-full justify-start space-x-2 space-x-reverse"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      signOut();
+                    }}
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>تسجيل الخروج</span>
                   </Button>
-                </Link>
-                <Link to="/register" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="w-full btn-medical justify-start space-x-2 space-x-reverse">
-                    <UserPlus className="w-4 h-4" />
-                    <span>إنشاء حساب</span>
-                  </Button>
-                </Link>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+                      <Button variant="ghost" className="w-full justify-start space-x-2 space-x-reverse">
+                        <LogIn className="w-4 h-4" />
+                        <span>تسجيل دخول</span>
+                      </Button>
+                    </Link>
+                    <Link to="/register" onClick={() => setIsMenuOpen(false)}>
+                      <Button className="w-full btn-medical justify-start space-x-2 space-x-reverse">
+                        <UserPlus className="w-4 h-4" />
+                        <span>إنشاء حساب</span>
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
