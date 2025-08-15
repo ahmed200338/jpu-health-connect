@@ -132,9 +132,20 @@ export default function ServicesManagement() {
             <Input placeholder="بحث بالاسم أو العنوان" value={search} onChange={e => setSearch(e.target.value)} className="w-64" />
           </div>
           <div className="flex items-center gap-2">
-            <Dialog>
+            <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
               <DialogTrigger asChild><Button variant="secondary">إضافة</Button></DialogTrigger>
-              <DialogContent><DialogHeader><DialogTitle>إضافة خدمة</DialogTitle></DialogHeader><div className="text-sm text-muted-foreground">الحفظ سيُفعَّل لاحقاً.</div></DialogContent>
+              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                <DialogHeader><DialogTitle>إضافة خدمة - {type}</DialogTitle></DialogHeader>
+                {type !== "الكل" ? (
+                  <AddServiceForm 
+                    serviceType={type} 
+                    onSuccess={() => { setShowAddDialog(false); loadServices(); }} 
+                    onCancel={() => setShowAddDialog(false)} 
+                  />
+                ) : (
+                  <div className="text-sm text-muted-foreground">يرجى اختيار نوع خدمة محدد لإضافة خدمة جديدة.</div>
+                )}
+              </DialogContent>
             </Dialog>
             <Dialog>
               <DialogTrigger asChild><Button variant="outline" disabled={selected.length !== 1}>تعديل</Button></DialogTrigger>
