@@ -101,8 +101,20 @@ const Subscription = () => {
 
     setLoading(true);
     try {
+      // First get the user ID from the users table using the current user's email
+      const { data: userData, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("email", user.email)
+        .single();
+
+      if (userError || !userData) {
+        console.error("User lookup error:", userError);
+        throw new Error("لم يتم العثور على بيانات المستخدم");
+      }
+
       const { error } = await supabase.from("student_subscription").insert({
-        user_id: parseInt(user.id),
+        user_id: userData.id,
         student_id: parseInt(formData.studentId),
         plan: selectedPlan as "bronze" | "silver" | "gold",
         college_department: formData.collegeDepartment,
