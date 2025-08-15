@@ -1,7 +1,8 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
-import { Home, Settings, Shield, Users, ListChecks, FileSpreadsheet, Menu, UserCircle, UserRound } from "lucide-react";
+import { Home, Settings, Shield, Users, ListChecks, FileSpreadsheet, Menu, UserCircle, UserRound, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const items = [
   { title: "الصفحة الرئيسية", url: "/dashboard", icon: Home },
@@ -17,6 +18,7 @@ export default function AdminSidebar() {
   const isCollapsed = state === "collapsed";
   const location = useLocation();
   const currentPath = location.pathname;
+  const { signOut } = useAuth();
 
   const isActive = (path: string) => currentPath === path;
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
@@ -49,6 +51,16 @@ export default function AdminSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton 
+                  size="lg" 
+                  className="justify-start hover:bg-destructive/10 text-destructive hover:text-destructive"
+                  onClick={signOut}
+                >
+                  <LogOut className="h-4 w-4" />
+                  {!isCollapsed && <span className="ml-2 text-lg">تسجيل الخروج</span>}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
