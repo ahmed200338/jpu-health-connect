@@ -1,8 +1,13 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { useAuth } from "@/contexts/AuthContext";
+
+
 
 export default function DashboardLayout() {
+
+
   return (
     <SidebarProvider>
       <div className="min-h-[80vh] flex w-full">
@@ -13,7 +18,9 @@ export default function DashboardLayout() {
             <div className="flex items-center gap-2">
               <SidebarTrigger className="ml-2" />
               <h1 className="text-2xl font-semibold  ">لوحة التحكم</h1>
+             
             </div>
+      
           </header>
           <div className="p-4">
             <Outlet />
