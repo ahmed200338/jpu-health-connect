@@ -144,13 +144,28 @@ export default function EditServiceForm({ serviceId, serviceType, onSuccess, onC
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="region">المنطقة</Label>
-        <Input
-          id="region"
-          value={data.region}
-          onChange={(e) => setData({...data, region: e.target.value})}
-          required
-        />
+        <Label htmlFor="region">المحافظة</Label>
+        <Select value={data.region} onValueChange={(value) => setData({...data, region: value})}>
+          <SelectTrigger>
+            <SelectValue placeholder="اختر المحافظة" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="دمشق">دمشق</SelectItem>
+            <SelectItem value="ريف دمشق">ريف دمشق</SelectItem>
+            <SelectItem value="حلب">حلب</SelectItem>
+            <SelectItem value="حمص">حمص</SelectItem>
+            <SelectItem value="حماة">حماة</SelectItem>
+            <SelectItem value="اللاذقية">اللاذقية</SelectItem>
+            <SelectItem value="طرطوس">طرطوس</SelectItem>
+            <SelectItem value="إدلب">إدلب</SelectItem>
+            <SelectItem value="درعا">درعا</SelectItem>
+            <SelectItem value="السويداء">السويداء</SelectItem>
+            <SelectItem value="القنيطرة">القنيطرة</SelectItem>
+            <SelectItem value="دير الزور">دير الزور</SelectItem>
+            <SelectItem value="الرقة">الرقة</SelectItem>
+            <SelectItem value="الحسكة">الحسكة</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {serviceType === "الأطباء" && (

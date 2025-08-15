@@ -116,27 +116,26 @@ export default function AddServiceForm({ serviceType, onSuccess, onCancel }: Add
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="region">المنطقة</Label>
+          <Label htmlFor="region">المحافظة</Label>
           <Select value={formData.region} onValueChange={(value) => updateField("region", value)}>
             <SelectTrigger>
-              <SelectValue placeholder="اختر المنطقة" />
+              <SelectValue placeholder="اختر المحافظة" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="الرياض">الرياض</SelectItem>
-              <SelectItem value="جدة">جدة</SelectItem>
-              <SelectItem value="الدمام">الدمام</SelectItem>
-              <SelectItem value="مكة">مكة</SelectItem>
-              <SelectItem value="المدينة">المدينة</SelectItem>
-              <SelectItem value="الطائف">الطائف</SelectItem>
-              <SelectItem value="تبوك">تبوك</SelectItem>
-              <SelectItem value="القصيم">القصيم</SelectItem>
-              <SelectItem value="حائل">حائل</SelectItem>
-              <SelectItem value="جازان">جازان</SelectItem>
-              <SelectItem value="نجران">نجران</SelectItem>
-              <SelectItem value="الباحة">الباحة</SelectItem>
-              <SelectItem value="عسير">عسير</SelectItem>
-              <SelectItem value="الحدود الشمالية">الحدود الشمالية</SelectItem>
-              <SelectItem value="الجوف">الجوف</SelectItem>
+              <SelectItem value="دمشق">دمشق</SelectItem>
+              <SelectItem value="ريف دمشق">ريف دمشق</SelectItem>
+              <SelectItem value="حلب">حلب</SelectItem>
+              <SelectItem value="حمص">حمص</SelectItem>
+              <SelectItem value="حماة">حماة</SelectItem>
+              <SelectItem value="اللاذقية">اللاذقية</SelectItem>
+              <SelectItem value="طرطوس">طرطوس</SelectItem>
+              <SelectItem value="إدلب">إدلب</SelectItem>
+              <SelectItem value="درعا">درعا</SelectItem>
+              <SelectItem value="السويداء">السويداء</SelectItem>
+              <SelectItem value="القنيطرة">القنيطرة</SelectItem>
+              <SelectItem value="دير الزور">دير الزور</SelectItem>
+              <SelectItem value="الرقة">الرقة</SelectItem>
+              <SelectItem value="الحسكة">الحسكة</SelectItem>
             </SelectContent>
           </Select>
         </div>

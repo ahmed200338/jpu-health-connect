@@ -190,7 +190,7 @@ export default function ServicesManagement() {
                 <TableHead>التخصص/القسم</TableHead>
                 <TableHead>العنوان</TableHead>
                 <TableHead>الهاتف</TableHead>
-                <TableHead>المنطقة</TableHead>
+                <TableHead>المحافظة</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
