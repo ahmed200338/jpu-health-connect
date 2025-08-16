@@ -1,12 +1,14 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import { useAuth } from "@/contexts/AuthContext";
 
 
 
 export default function DashboardLayout() {
-
+  const { user, signOut, userRole } = useAuth();
 
   return (
     <SidebarProvider>
@@ -20,7 +22,15 @@ export default function DashboardLayout() {
               <h1 className="text-2xl font-semibold  ">لوحة التحكم</h1>
              
             </div>
-      
+            <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  className="space-x-2 space-x-reverse border-primary text-lg"
+                  onClick={signOut}
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>تسجيل الخروج</span>
+                </Button>
           </header>
           <div className="p-4">
             <Outlet />

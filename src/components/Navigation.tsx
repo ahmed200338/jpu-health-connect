@@ -15,6 +15,8 @@ const Navigation = () => {
   const navItems = [
     { path: "/", label: "الرئيسية", icon: null },
     { path: "/support", label: "الدعم والمساعدة", icon: null },
+    { path: "/subscription", label: "الاشتراك بالتأمين", icon: null },
+    
   ];
 
   return (
@@ -53,7 +55,7 @@ const Navigation = () => {
             {/* Sections Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="text-sm font-medium space-x-2 space-x-reverse">
+                <Button variant="ghost" className="text-lg font-medium space-x-2 space-x-reverse transition-smooth text-muted-foreground hover:text-foreground hover:bg-muted/50">
                   <span>الأقسام</span>
                   <ChevronDown className="w-4 h-4" />
                 </Button>
